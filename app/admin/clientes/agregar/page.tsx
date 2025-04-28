@@ -21,12 +21,21 @@ export default function FormCliente() {
 
   const handleSubmit = async () => {
     try {
+      const mappedData = {
+        firstName: formData.nombre,
+        lastName: formData.apellido,
+        dni: formData.dni,
+        email: formData.email,
+        phoneNumber: formData.numero,
+        deleted: false,
+      };
+
       const response = await fetch("/api/clientes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(mappedData),
       });
 
       if (!response.ok) {
@@ -68,7 +77,7 @@ export default function FormCliente() {
             Apellido
           </h1>
           <Input
-            name="lastName"
+            name="apellido"
             type="text"
             placeholder="Ingrese apellido"
             value={formData.apellido}
@@ -81,7 +90,7 @@ export default function FormCliente() {
             Nombre
           </h1>
           <Input
-            name="firstName"
+            name="nombre"
             type="text"
             placeholder="Ingrese nombre"
             value={formData.nombre}
@@ -105,7 +114,7 @@ export default function FormCliente() {
             Teléfono
           </h1>
           <Input
-            name="phoneNumber"
+            name="numero"
             type="text"
             placeholder="Ingrese teléfono"
             value={formData.numero}
