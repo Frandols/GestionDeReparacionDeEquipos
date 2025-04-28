@@ -132,4 +132,19 @@ export class Client {
 			return false
 		}
 	}
+
+	static async updateByDni(dni: string, data: Partial<ClientData>): Promise<boolean> {
+		try {
+		  const result = await db
+			.update(clients)
+			.set(data)
+			.where(eq(clients.dni, dni))
+	  
+		  return result ? true : false
+		} catch (error) {
+		  console.error('Error al actualizar cliente:', error)
+		  return false
+		}
+	  }
+	  
 }
