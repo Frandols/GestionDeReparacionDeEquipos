@@ -1,5 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar-admin";
-import InsetHeader from "@/components/sidebar-inset-header";
+import InsetHeader from "@/components/sidebar-inset-header-admin";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";

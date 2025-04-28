@@ -128,11 +128,10 @@ export default function ListarClientes() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">Listado de Clientes</h1>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            <Download className="h-4 w-4 mr-2" />
-            Exportar
-          </Button>
-          <Button size="sm">
+          <Button
+            size="sm"
+            onClick={() => router.push("/admin/clientes/agregar")}
+          >
             <Plus className="h-4 w-4 mr-2" />
             Nuevo Cliente
           </Button>
@@ -247,4 +246,3 @@ export default function ListarClientes() {
     </div>
   );
 }
-    
