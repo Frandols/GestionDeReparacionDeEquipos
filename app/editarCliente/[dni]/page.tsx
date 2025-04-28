@@ -3,12 +3,13 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { UserPlus } from 'lucide-react'
-
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function EditarCliente() {
+  const router = useRouter()
   const [isMounted, setIsMounted] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('') // <-- Nuevo
   const [dni, setDni] = useState<string | undefined>(undefined)
   const [formData, setFormData] = useState({
     nombre: '',
@@ -19,38 +20,28 @@ export default function EditarCliente() {
   })
 
   const pathname = usePathname()
-
-  // '/editarCliente/44293877'
-  // '/editarCliente/44293877'.split('/') => ['', 'editarCliente', '44293877'].pop() => 
-
   const routerDni = pathname.split('/').pop()
 
-  // Establecemos que el componente ha sido montado
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
-  // Solo después de que el componente haya sido montado, podemos acceder al router.query
   useEffect(() => {
     if (isMounted && routerDni) {
       setDni(routerDni as string)
     }
   }, [routerDni, isMounted])
 
-  // Traer los datos del cliente si tenemos el DNI
   useEffect(() => {
     const fetchClientData = async () => {
       if (dni) {
         try {
           const response = await fetch(`/api/clientes/${dni}`)
-
           const data = await response.json()
           if (data.error) {
             console.error('Cliente no encontrado:', data.error)
             return
           }
-
-          // Seteamos los datos obtenidos del cliente en el formulario
           setFormData({
             nombre: data.firstName,
             apellido: data.lastName,
@@ -63,21 +54,65 @@ export default function EditarCliente() {
         }
       }
     }
-
     fetchClientData()
   }, [dni])
 
-  if (!isMounted) return null // O muestra un loader mientras carga
-  if (!dni) return <div>Cargando...</div> // Muestra mensaje mientras se obtiene el dni
+  if (!isMounted) return null
+  if (!dni) return <div>Cargando...</div>
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const handleSubmit = async () => {
+    if (!formData.nombre || !formData.apellido || !formData.dni || !formData.email || !formData.numero) {
+      alert('Todos los campos son requeridos.')
+      return
+    }
+  
+    try {
+      const response = await fetch(`/api/clientes/${dni}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.nombre,
+          lastName: formData.apellido,
+          dni: formData.dni,
+          email: formData.email,
+          phoneNumber: formData.numero,
+        }),
+      })
+  
+      const data = await response.json()
+  
+      if (response.ok) {
+        setSuccessMessage('Cliente actualizado exitosamente.')
+        setTimeout(() => {
+          router.back() // 🔥 Volver a la página anterior después de 1 segundo
+        }, 1000)
+      } else {
+        setSuccessMessage(data.error || 'Hubo un error al actualizar el cliente.')
+      }
+    } catch (error) {
+      console.error('Error al actualizar el cliente:', error)
+      setSuccessMessage('Hubo un problema al actualizar el cliente.')
+    }
+  }
+
   return (
     <section className='relative flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-600 min-h-screen'>
-      {/* ICONO */}
+      <div className="absolute top-6 left-6">
+        <Button
+          onClick={() => router.back()}
+          className="bg-gradient-to-r from-violet-400 to-violet-800 text-white rounded-md shadow-xl hover:from-violet-500 hover:to-violet-900 transition-all"
+        >
+          Volver
+        </Button>
+      </div>
+
       <div
         style={{ top: '10rem' }}
         className='absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center w-32 h-32 bg-[#202020]/80 rounded-full shadow-2xl'
@@ -85,15 +120,13 @@ export default function EditarCliente() {
         <UserPlus className='w-20 h-20 text-white' />
       </div>
 
-      <section className='flex flex-col items-center justify-center bg-[#202020]/80 rounded-2xl p-8 w-[350px] h-[500px] space-y-4 shadow-2xl mt-16'>
+      <section className='flex flex-col items-center justify-center bg-[#202020]/80 rounded-2xl p-8 w-[350px] h-[600px] space-y-4 shadow-2xl mt-16'>
         <h1 className='text-white text-bold italic font-mono text-2xl'>
           Editar cliente
         </h1>
 
         <div className='grid grid-cols-[100px_1fr] items-center gap-x-4 gap-y-4 mt-8'>
-          <h1 className='text-white text-bold italic font-mono text-x1'>
-            Apellido
-          </h1>
+          <h1 className='text-white text-bold italic font-mono text-x1'>Apellido</h1>
           <Input
             name='apellido'
             type='text'
@@ -101,13 +134,10 @@ export default function EditarCliente() {
             value={formData.apellido}
             onChange={handleChange}
             required
-            
             className='text-white w-40 flex-1 focus:ring-2 focus:ring-gray-200 hover:ring-2 hover:ring-gray-400 transition-all'
           />
 
-          <h1 className='text-white text-bold italic font-mono text-x1'>
-            Nombre
-          </h1>
+          <h1 className='text-white text-bold italic font-mono text-x1'>Nombre</h1>
           <Input
             name='nombre'
             type='text'
@@ -115,7 +145,6 @@ export default function EditarCliente() {
             value={formData.nombre}
             onChange={handleChange}
             required
-           
             className='text-white w-40 flex-1 focus:ring-2 focus:ring-gray-200 hover:ring-2 hover:ring-gray-400 transition-all'
           />
 
@@ -127,13 +156,10 @@ export default function EditarCliente() {
             value={formData.dni}
             onChange={handleChange}
             required
-            
             className='text-white w-40 flex-1 focus:ring-2 focus:ring-gray-200 hover:ring-2 hover:ring-gray-400 transition-all'
           />
 
-          <h1 className='text-white text-bold italic font-mono text-x1'>
-            Teléfono
-          </h1>
+          <h1 className='text-white text-bold italic font-mono text-x1'>Teléfono</h1>
           <Input
             name='numero'
             type='text'
@@ -141,13 +167,10 @@ export default function EditarCliente() {
             value={formData.numero}
             onChange={handleChange}
             required
-            
             className='text-white w-40 flex-1 focus:ring-2 focus:ring-gray-200 hover:ring-2 hover:ring-gray-400 transition-all'
           />
 
-          <h1 className='text-white text-bold italic font-mono text-x1'>
-            Correo
-          </h1>
+          <h1 className='text-white text-bold italic font-mono text-x1'>Correo</h1>
           <Input
             name='email'
             type='email'
@@ -155,16 +178,21 @@ export default function EditarCliente() {
             value={formData.email}
             onChange={handleChange}
             required
-            
             className='text-white w-40 flex-1 focus:ring-2 focus:ring-gray-200 hover:ring-2 hover:ring-gray-400 transition-all'
           />
         </div>
 
+        {/* Mostrar mensaje de éxito o error */}
+        {successMessage && (
+          <div className="text-green-500 text-center mt-2">
+            {successMessage}
+          </div>
+        )}
+
         <div className='flex flex-col justify-start items-center'>
-          {/* Botón de visualización */}
           <Button
+            onClick={handleSubmit}
             className='vibrate bg-gradient-to-r from-violet-400 to-violet-800 text-white px-15 py-2 rounded-md shadow-xl hover:from-violet-500 hover:to-violet-900 transition-all mt-5'
-            
           >
             Editar Cliente
           </Button>

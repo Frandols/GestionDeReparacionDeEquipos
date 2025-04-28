@@ -2,26 +2,28 @@
 
 import { Button } from '@/components/ui/button'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
 } from '@/components/ui/table'
 import { Download, Plus, Search } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function ListarClientes() {
+
+	const [searchQuery, setSearchQuery] = useState('')
 	const [clientes, setClientes] = useState<any[]>([]) // Usamos 'any' para no definir el tipo
 	const [filteredClientes, setFilteredClientes] = useState<any[]>([]) // Usamos 'any' para no definir el tipo
 	const [filter, setFilter] = useState<'all' | 'active' | 'deleted'>('all')
@@ -43,71 +45,85 @@ export default function ListarClientes() {
 	}, [])
 
 	useEffect(() => {
-		if (filter === 'active') {
-			setFilteredClientes(
-				clientes.filter((cliente) => cliente.deleted === false)
+		const applyFilters = () => {
+		  let filtered = clientes
+	  
+		  if (filter === 'active') {
+			filtered = filtered.filter((cliente) => cliente.deleted === false)
+		  } else if (filter === 'deleted') {
+			filtered = filtered.filter((cliente) => cliente.deleted === true)
+		  }
+	  
+		  if (searchQuery.trim() !== '') {
+			const lowerQuery = searchQuery.toLowerCase()
+			filtered = filtered.filter((cliente) =>
+			  cliente.firstName.toLowerCase().includes(lowerQuery) ||
+			  cliente.lastName.toLowerCase().includes(lowerQuery) ||
+			  cliente.dni.toString().includes(lowerQuery) ||
+			  (cliente.email && cliente.email.toLowerCase().includes(lowerQuery))
 			)
-		} else if (filter === 'deleted') {
-			setFilteredClientes(
-				clientes.filter((cliente) => cliente.deleted === true)
-			)
-		} else {
-			setFilteredClientes(clientes) // Muestra todos los clientes si no hay filtro
+		  }
+	  
+		  setFilteredClientes(filtered)
 		}
-	}, [filter, clientes])
+	  
+		applyFilters()
+	  }, [filter, searchQuery, clientes.length])
+	  
+
 
 	const handleEdit = (dni: string) => {
 		router.push(`/editarCliente/${dni}`)
 	}
 
 	const handleDelete = async (dni: string) => {
-    try {
-      const response = await fetch(`/api/clientes/${dni}`, {
-        method: 'DELETE',
-      })
-  
-      const data = await response.json()
-  
-      if (response.ok) {
-        setClientes((prevClientes) =>
-          prevClientes.map((cliente) =>
-            cliente.dni === dni ? { ...cliente, deleted: true } : cliente
-          )
-        )
-      } else {
-        console.error('Error al eliminar cliente:', data.error)
-      }
-    } catch (error) {
-      console.error('Error al eliminar cliente:', error)
-    }
-  }
+		try {
+			const response = await fetch(`/api/clientes/${dni}`, {
+				method: 'DELETE',
+			})
 
-  const handleActivate = async (dni: string) => {
-    try {
-      const response = await fetch(`/api/clientes/${dni}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ deleted: false }),
-      })
-  
-      const data = await response.json()
-  
-      if (response.ok) {
-        setClientes((prevClientes) =>
-          prevClientes.map((cliente) =>
-            cliente.dni === dni ? { ...cliente, deleted: false } : cliente
-          )
-        )
-      } else {
-        console.error('Error al activar cliente:', data.error)
-      }
-    } catch (error) {
-      console.error('Error al activar cliente:', error)
-    }
-  }
-  
+			const data = await response.json()
+
+			if (response.ok) {
+				setClientes((prevClientes) =>
+					prevClientes.map((cliente) =>
+						cliente.dni === dni ? { ...cliente, deleted: true } : cliente
+					)
+				)
+			} else {
+				console.error('Error al eliminar cliente:', data.error)
+			}
+		} catch (error) {
+			console.error('Error al eliminar cliente:', error)
+		}
+	}
+
+	const handleActivate = async (dni: string) => {
+		try {
+			const response = await fetch(`/api/clientes/${dni}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ deleted: false }),
+			})
+
+			const data = await response.json()
+
+			if (response.ok) {
+				setClientes((prevClientes) =>
+					prevClientes.map((cliente) =>
+						cliente.dni === dni ? { ...cliente, deleted: false } : cliente
+					)
+				)
+			} else {
+				console.error('Error al activar cliente:', data.error)
+			}
+		} catch (error) {
+			console.error('Error al activar cliente:', error)
+		}
+	}
+
 
 	return (
 		<div className='container mx-auto py-6 bg-gray-50 text-gray-900 min-h-screen'>
@@ -115,16 +131,13 @@ export default function ListarClientes() {
 				<h1 className='text-3xl font-bold'>Listado de Clientes</h1>
 				<div className='flex items-center gap-2'>
 					<Button
-						variant='outline'
 						size='sm'
+						onClick={() => router.push('/formCliente')}
 					>
-						<Download className='h-4 w-4 mr-2' />
-						Exportar
-					</Button>
-					<Button size='sm'>
 						<Plus className='h-4 w-4 mr-2' />
 						Nuevo Cliente
 					</Button>
+
 				</div>
 			</div>
 
@@ -168,8 +181,12 @@ export default function ListarClientes() {
 						<Input
 							type='search'
 							placeholder='Buscar por nombre, apellido, DNI o email...'
+							value={searchQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
 							className='pl-8 bg-gray-800 border-gray-700 text-white placeholder:text-gray-400 focus:ring-gray-600'
 						/>
+
+
 					</div>
 				</CardContent>
 			</Card>
@@ -194,53 +211,53 @@ export default function ListarClientes() {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-  {filteredClientes.map((cliente: any) => (
-    <TableRow
-      key={cliente.id}
-      className="border-gray-800 hover:bg-gray-800"
-    >
-      <TableCell className="font-medium text-white">
-        {cliente.id}
-      </TableCell>
-      <TableCell className="text-gray-200">{cliente.dni}</TableCell>
-      <TableCell className="text-gray-200">{cliente.firstName}</TableCell>
-      <TableCell className="text-gray-200">{cliente.lastName}</TableCell>
-      <TableCell className="text-gray-200">{cliente.email}</TableCell>
-      <TableCell className="text-gray-200">{cliente.phoneNumber}</TableCell>
-      <TableCell className="text-right flex justify-end gap-2">
-        {cliente.deleted ? (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-green-400 hover:text-white hover:bg-green-700"
-            onClick={() => handleActivate(cliente.dni)}
-          >
-            Activar
-          </Button>
-        ) : (
-          <>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-gray-200 hover:text-white hover:bg-gray-700"
-              onClick={() => handleEdit(cliente.dni)}
-            >
-              Editar
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-red-400 hover:text-white hover:bg-red-700"
-              onClick={() => handleDelete(cliente.dni)}
-            >
-              Eliminar
-            </Button>
-          </>
-        )}
-      </TableCell>
-    </TableRow>
-  ))}
-</TableBody>
+								{filteredClientes.map((cliente: any) => (
+									<TableRow
+										key={cliente.id}
+										className="border-gray-800 hover:bg-gray-800"
+									>
+										<TableCell className="font-medium text-white">
+											{cliente.id}
+										</TableCell>
+										<TableCell className="text-gray-200">{cliente.dni}</TableCell>
+										<TableCell className="text-gray-200">{cliente.firstName}</TableCell>
+										<TableCell className="text-gray-200">{cliente.lastName}</TableCell>
+										<TableCell className="text-gray-200">{cliente.email}</TableCell>
+										<TableCell className="text-gray-200">{cliente.phoneNumber}</TableCell>
+										<TableCell className="text-right flex justify-end gap-2">
+											{cliente.deleted ? (
+												<Button
+													variant="ghost"
+													size="sm"
+													className="text-green-400 hover:text-white hover:bg-green-700"
+													onClick={() => handleActivate(cliente.dni)}
+												>
+													Activar
+												</Button>
+											) : (
+												<>
+													<Button
+														variant="ghost"
+														size="sm"
+														className="text-gray-200 hover:text-white hover:bg-gray-700"
+														onClick={() => handleEdit(cliente.dni)}
+													>
+														Editar
+													</Button>
+													<Button
+														variant="ghost"
+														size="sm"
+														className="text-red-400 hover:text-white hover:bg-red-700"
+														onClick={() => handleDelete(cliente.dni)}
+													>
+														Eliminar
+													</Button>
+												</>
+											)}
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
 
 						</Table>
 					</div>

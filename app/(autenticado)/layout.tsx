@@ -1,14 +1,17 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import InsetHeader from "@/components/sidebar-inset-header"
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
-import { currentUser } from "@clerk/nextjs/server"
-import { redirect } from "next/navigation"
+import { AppSidebar } from "@/components/app-sidebar";
+import InsetHeader from "@/components/sidebar-inset-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const user = await currentUser();
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
-    const user = await currentUser()
-
-    if(user === null) redirect('/login')
+  if (user === null) redirect("/login");
 
     return (
         <SidebarProvider>
