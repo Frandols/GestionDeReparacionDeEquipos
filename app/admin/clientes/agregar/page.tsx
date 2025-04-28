@@ -21,6 +21,7 @@ export default function FormCliente() {
 
   const handleSubmit = async () => {
     try {
+      //Hay que mapear ya que el back espera de esta manera los datos
       const mappedData = {
         firstName: formData.nombre,
         lastName: formData.apellido,
