@@ -1,29 +1,29 @@
-import { ChevronDown, ChevronsUpDown, Home, LineChart, LogOut, Printer, Wallet } from "lucide-react"
+import { ChartNoAxesGantt, ChevronDown, ChevronsUpDown, Eye, Home, LogOut, PersonStanding, PlusCircle, Printer, Users } from "lucide-react"
 
 import {
-    Sidebar,
-    SidebarContent,
-    SidebarFooter,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    SidebarMenuSub,
-    SidebarMenuSubButton,
-    SidebarMenuSubItem
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem
 } from "@/components/ui/sidebar"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SignOutButton } from "@clerk/nextjs"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
@@ -33,25 +33,55 @@ export const navItems = [
         title: "Inicio",
         url: "/",
         icon: Home,
-        subItems: null
+        subItems: null,
+        roles: ['maestro', 'administrador', 'tecnico']
     }, 
     {
         title: "Usuarios",
         url: "/usuarios",
-        icon: Home,
+        icon: Users,
+        roles: ['maestro'],
         subItems: [
             {
                 title: "Agregar",
-                icon: LineChart,
+                icon: PlusCircle,
                 url: "/agregar",
+                roles: ['maestro']
             },
             {
                 title: "Administrar",
-                icon: Wallet,
+                icon: ChartNoAxesGantt,
                 url: "/administrar",
+                roles: ['maestro']
             }
         ],
     },
+    {
+      title: "Clientes",
+      url: "/clientes",
+      icon: PersonStanding,
+      roles: ['maestro', 'administrador'],
+      subItems: [
+          {
+              title: "Ver",
+              icon: Eye,
+              url: "/ver",
+              roles: ['maestro']
+          },
+          {
+              title: "Agregar",
+              icon: PlusCircle,
+              url: "/agregar",
+              roles: ['administrador']
+          },
+          {
+              title: "Administrar",
+              icon: ChartNoAxesGantt,
+              url: "/administrar",
+              roles: ['administrador']
+          }
+      ],
+  },
 ]
 
 interface AppSidebarProps {
@@ -59,6 +89,7 @@ interface AppSidebarProps {
         name: string
         email: string
         avatarUrl: string
+        role: string
     }
 }
 
@@ -85,7 +116,7 @@ export function AppSidebar(props: AppSidebarProps) {
             <SidebarGroupLabel>Gestion</SidebarGroupLabel>
             <SidebarGroupContent>
                 <SidebarMenu>
-                {navItems.map((item) => (
+                {navItems.filter(item => item.roles?.includes(props.user.role)).map((item) => (
                   <SidebarMenuItem key={item.title}>
                     {item.subItems ? (
                       <Collapsible defaultOpen className="w-full">
@@ -98,7 +129,7 @@ export function AppSidebar(props: AppSidebarProps) {
                         </CollapsibleTrigger>
                         <CollapsibleContent>
                           <SidebarMenuSub>
-                            {item.subItems.map((subItem) => (
+                            {item.subItems.filter(subItem => subItem.roles?.includes(props.user.role)).map((subItem) => (
                               <SidebarMenuSubItem key={subItem.title}>
                                 <SidebarMenuSubButton asChild>
                                   <a href={item.url + subItem.url}>

@@ -12,7 +12,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 
     return (
         <SidebarProvider>
-            <AppSidebar user={{ name: user.username || 'Name', email: user.emailAddresses[0].emailAddress || 'example@xyz.com', avatarUrl: '/placeholder.svg' }} />
+            <AppSidebar user={{ name: user.username || 'Name', email: user.emailAddresses[0].emailAddress || 'example@xyz.com', avatarUrl: '/placeholder.svg', role: user.publicMetadata.role as string }} />
             <SidebarInset>
                 <InsetHeader/>
                 <main className="flex-1 p-6">

@@ -11,7 +11,9 @@ export default function getCurrentDateForToast() {
 		hour12: true, // Formato de 12 horas (AM/PM)
 	}
 
-	const formateada = new Intl.DateTimeFormat('en-US', options).format(fecha)
+	const formateada = new Intl.DateTimeFormat('es-ES', options).format(fecha)
 
-	return formateada.replace(',', ' at')
+	const resultado = formateada.charAt(0).toUpperCase() + formateada.slice(1)
+
+	return resultado
 }

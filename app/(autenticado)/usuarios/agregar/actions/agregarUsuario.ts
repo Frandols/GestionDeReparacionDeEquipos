@@ -38,17 +38,29 @@ export default async function agregarUsuario(
 
 	const usuarioAdaptado = {
 		...usuario,
-		DNI: Number(usuario.telefono),
+		DNI: Number(usuario.DNI),
 	}
 
 	const clerk = await clerkClient()
 
-	await clerk.users
-		.createUser({
+	const currentUsers = await clerk.users.getUserList()
+
+	if (
+		currentUsers.data.some(
+			(currentUser) => currentUser.publicMetadata.DNI === usuarioAdaptado.DNI
+		)
+	)
+		return {
+			code: 'form_identifier_exists',
+			param: 'DNI',
+		}
+
+	try {
+		await clerk.users.createUser({
 			firstName: usuarioAdaptado.nombre,
 			lastName: usuarioAdaptado.apellido,
 			emailAddress: [usuarioAdaptado.email],
-			phoneNumber: [usuarioAdaptado.telefono],
+			phoneNumber: [`+54${usuarioAdaptado.telefono}`],
 			username: usuarioAdaptado.nombreDeUsuario,
 			password: usuarioAdaptado.password,
 			publicMetadata: {
@@ -56,5 +68,14 @@ export default async function agregarUsuario(
 				role: usuarioAdaptado.rol,
 			},
 		})
-		.catch((error) => console.log(error.toString()))
+	} catch (error: unknown) {
+		const info = (
+			error as { errors: [{ code: string; meta: { paramName: string } }] }
+		).errors[0]
+
+		return {
+			code: info.code,
+			param: info.meta.paramName,
+		}
+	}
 }
