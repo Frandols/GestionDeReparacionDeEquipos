@@ -1,23 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import { Download, Plus, Search } from "lucide-react";
+import TablaClientes from "@/components/tabla-clientes";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -75,7 +58,7 @@ export default function ListarClientes() {
   }, [filter, clientes, searchQuery]);
 
   const handleEdit = (dni: string) => {
-    router.push(`/editarCliente/${dni}`);
+    router.push(`/clientes/administrar/${dni}`);
   };
 
   const handleDelete = async (dni: string) => {
@@ -123,120 +106,11 @@ export default function ListarClientes() {
     }
   };
 
-	return (
-		<div className='container mx-auto py-6 bg-gray-50 text-gray-900 min-h-screen'>
-			<div className='flex items-center justify-between mb-6'>
-				<h1 className='text-3xl font-bold'>Listado de Clientes</h1>
-				<div className='flex items-center gap-2'>
-
-				</div>
-			</div>
-
-      <div className="flex gap-4 mb-6">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setFilter("active")}
-          className={`${filter === "active" ? "bg-gray-700 text-white" : ""}`}
-        >
-          Activos
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setFilter("deleted")}
-          className={`${filter === "deleted" ? "bg-gray-700 text-white" : ""}`}
-        >
-          Eliminados
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setFilter("all")}
-          className={`${filter === "all" ? "bg-gray-700 text-white" : ""}`}
-        >
-          Todos
-        </Button>
-      </div>
-
-      {/* 🧠 Search Bar Added Here */}
-      <Card className="mb-6 bg-gray-900 border-gray-700 text-white">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-white">Filtros</CardTitle>
-          <CardDescription className="text-gray-300">
-            Busca y filtra la lista de clientes
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
-            <Input
-              type="search"
-              placeholder="Buscar por nombre, apellido, DNI o email..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8 bg-gray-800 border-gray-700 text-white placeholder:text-gray-400 focus:ring-gray-600"
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">ID Cliente</TableHead>
-            <TableHead>DNI</TableHead>
-            <TableHead>Nombre</TableHead>
-            <TableHead>Apellido</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Teléfono</TableHead>
-            <TableHead className="text-right">Acciones</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredClientes.map((cliente) => (
-            <TableRow key={cliente.id}>
-              <TableCell>{cliente.id}</TableCell>
-              <TableCell>{cliente.dni}</TableCell>
-              <TableCell>{cliente.firstName}</TableCell>
-              <TableCell>{cliente.lastName}</TableCell>
-              <TableCell>{cliente.email}</TableCell>
-              <TableCell>{cliente.phoneNumber}</TableCell>
-              <TableCell className="flex justify-end gap-2">
-                {cliente.deleted ? (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-green-600 hover:text-green-800"
-                    onClick={() => handleActivate(cliente.dni)}
-                  >
-                    Activar
-                  </Button>
-                ) : (
-                  <>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="hover:bg-gray-200"
-                      onClick={() => handleEdit(cliente.dni)}
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-red-600 hover:text-red-800"
-                      onClick={() => handleDelete(cliente.dni)}
-                    >
-                      Eliminar
-                    </Button>
-                  </>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  );
+	return <TablaClientes 
+      showActions 
+      onDelete={(cliente) => handleDelete(cliente.dni)} 
+      onUpdate={(cliente) => handleEdit(cliente.dni)} 
+      onActivate={(cliente) => handleActivate(cliente.dni)}
+      clientes={clientes} 
+  />
 }

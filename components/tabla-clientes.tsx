@@ -70,17 +70,29 @@ function obtenerClientesFiltrados(clientes: Omit<Client, 'save'>[], filtro: Excl
 
 type FilterBy = (Filter & { parametrized: false }) | (ParametrizedFilter & { parametrized: true; param: string }) | null
 
-
-interface TablaClientesProps {
+interface TablaClientesCoreProps {
     clientes: Omit<Client, 'save'>[]
 }
+
+interface TablaClientesConAccionesProps extends TablaClientesCoreProps {
+    showActions: true
+    onUpdate: (cliente: Omit<Client, 'save'>) => void
+    onDelete: (cliente: Omit<Client, 'save'>) => void
+    onActivate: (cliente: Omit<Client, 'save'>) => void
+}
+
+interface TablaClientesSinAccionesProps extends TablaClientesCoreProps {
+    showActions: false
+}
+
+type TablaClientesProps = TablaClientesConAccionesProps | TablaClientesSinAccionesProps
 
 export default function TablaClientes(props: TablaClientesProps) {
     const [filterBy, setFilterBy] = useState<FilterBy>(null)
 
     const clientes = filterBy !== null ? obtenerClientesFiltrados(props.clientes, filterBy) : props.clientes
 
-    return <div className="flex flex-col">
+    return <div className="flex flex-col gap-2">
         <div className='flex gap-2'>
             {
                 filtros.map(
@@ -146,6 +158,14 @@ export default function TablaClientes(props: TablaClientesProps) {
                     <TableHead>Telefono</TableHead>
                     <TableHead>DNI</TableHead>
                     <TableHead className="text-right">Estado</TableHead>
+                    {
+                        props.showActions
+                        ? <>
+                            <TableHead className="text-right">-</TableHead>
+                            <TableHead className="text-right">-</TableHead>
+                        </>
+                        : null
+                    }
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -160,6 +180,28 @@ export default function TablaClientes(props: TablaClientesProps) {
                                 <TableCell>{cliente.phoneNumber}</TableCell>
                                 <TableCell>{cliente.dni as string}</TableCell>
                                 <TableCell className={`text-right${cliente.deleted ? ' text-destructive' : ' text-green-500'}`}>{cliente.deleted ? 'Eliminado' : 'Activo'}</TableCell>
+                                {
+                                    props.showActions
+                                    ? <>
+                                        <TableCell className="text-right">
+                                            <Button variant='ghost' onClick={() => {
+                                                props.onUpdate(cliente)
+                                            }}>Editar</Button>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            {
+                                                cliente.deleted
+                                                ? <Button onClick={() => {
+                                                    props.onActivate(cliente)
+                                                }}>Activar</Button>
+                                                : <Button variant='destructive' onClick={() => {
+                                                    props.onDelete(cliente)
+                                                }}>Eliminar</Button>
+                                            }
+                                        </TableCell>
+                                    </>
+                                    : null
+                                }
                             </TableRow>
                         )
                     )

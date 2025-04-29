@@ -3,12 +3,10 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { UserPlus } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function FormCliente() {
     const [successMessage, setSuccessMessage] = useState('')
-    const router = useRouter()
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -69,22 +67,20 @@ export default function FormCliente() {
 
 
     return (
-        <section className="relative flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-600 min-h-screen">
+        <section className="relative flex flex-col items-center justify-center h-full">
 
-            {/* BOTÓN VOLVER SEPARADO */}
-            <div className="absolute top-6 left-6">
-            </div>
 
             {/* ICONO */}
-            <div
-                style={{ top: '10rem' }}
-                className="absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center w-32 h-32 bg-[#202020]/80 rounded-full shadow-2xl"
-            >
-                <UserPlus className="w-20 h-20 text-white" />
-            </div>
 
             {/* FORMULARIO */}
-            <section className='flex flex-col items-center justify-center bg-[#202020]/80 rounded-2xl p-8 w-[350px] h-[500px] space-y-4 shadow-2xl mt-16'>
+            <section className='relative flex flex-col items-center justify-center bg-[#202020]/90 rounded-2xl p-8 w-[350px] h-[500px] space-y-4 shadow-2xl mt-16'>
+                <div
+                    style={{ bottom: 'calc(100% - 32px)' }}
+                    className="absolute left-[calc(100% - 32px)] flex items-center justify-center w-32 h-32 bg-[#202020] rounded-full shadow-2xl"
+                >
+                    <UserPlus className="w-20 h-20 text-white" />
+                </div>
+                
                 <h1 className='text-white text-bold italic font-mono text-2xl'>
                     Agregar cliente
                 </h1>

@@ -110,7 +110,7 @@ export default function TablaUsuarios(props: { users: UserRowData[] }) {
 
     const users = filterBy !== null ? obtenerUsuariosFiltrados(currentUsers, filterBy) : currentUsers
 
-    return <div className='flex flex-col'>
+    return <div className='flex flex-col gap-2'>
         <div className='flex gap-2'>
             {
                 filtros.map(

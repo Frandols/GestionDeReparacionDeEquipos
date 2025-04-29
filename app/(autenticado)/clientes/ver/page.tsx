@@ -14,5 +14,5 @@ export default async function VerClientesPage() {
         deleted: client.deleted
     }))
 
-    return <TablaClientes clientes={adaptedClients} />
+    return <TablaClientes showActions={false} clientes={adaptedClients} />
 }
