@@ -130,13 +130,6 @@ export default function ListarClientes() {
 			<div className='flex items-center justify-between mb-6'>
 				<h1 className='text-3xl font-bold'>Listado de Clientes</h1>
 				<div className='flex items-center gap-2'>
-					<Button
-						size='sm'
-						onClick={() => router.push('/formCliente')}
-					>
-						<Plus className='h-4 w-4 mr-2' />
-						Nuevo Cliente
-					</Button>
 
 				</div>
 			</div>

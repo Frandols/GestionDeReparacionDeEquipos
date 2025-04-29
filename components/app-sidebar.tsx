@@ -26,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SignOutButton } from "@clerk/nextjs"
+import { ThemeSelector } from "./theme-selector"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
 
 export const navItems = [
@@ -103,8 +104,8 @@ export function AppSidebar(props: AppSidebarProps) {
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                     <Printer className="size-4" />
                 </div>
-                <div className="flex flex-col gap-0.5 leading-none">
-                    <span className="font-semibold">Reparacion de Equipos</span>
+                <div className="flex flex-col gap-0.5 leading-none min-w-0">
+                    <span className="font-semibold truncate" title="Reparacion de Equipos">Reparacion de Equipos</span>
                     <span className="text-xs">Espacio de trabajo</span>
                 </div>
                 </SidebarMenuButton>
@@ -171,7 +172,10 @@ export function AppSidebar(props: AppSidebarProps) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="min-w-[240px] w-full" align="end" side="right">
                 <DropdownMenuLabel>
-                    <UserCard {...props.user} />
+                    <div className="flex justify-between gap-3">
+                      <UserCard {...props.user} />
+                      <ThemeSelector/>
+                    </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <SignOutButton>

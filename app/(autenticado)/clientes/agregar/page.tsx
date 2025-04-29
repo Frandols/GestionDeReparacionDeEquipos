@@ -73,13 +73,6 @@ export default function FormCliente() {
 
             {/* BOTÓN VOLVER SEPARADO */}
             <div className="absolute top-6 left-6">
-                <Button
-
-                    onClick={() => router.back()}
-                    className="bg-gradient-to-r from-violet-400 to-violet-800 text-white rounded-md shadow-xl hover:from-violet-500 hover:to-violet-900 transition-all"
-                >
-                    Volver
-                </Button>
             </div>
 
             {/* ICONO */}

@@ -78,7 +78,7 @@ function obtenerUsuariosFiltrados(usuarios: UserRowData[], filtro: Exclude<Filte
     if(filtro.parametrized && filtro.param !== '') return usuarios.filter(usuario => {
         const field = usuario[filtro.value]
 
-        if(typeof field === 'string') return field.includes(filtro.param)
+        if(typeof field === 'string') return field.toLowerCase().startsWith(filtro.param.toLowerCase())
     })
 
     switch(filtro.value) {
@@ -122,7 +122,7 @@ export default function TablaUsuarios(props: { users: UserRowData[] }) {
             }
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant='outline'>
+                    <Button variant={filterBy !== null && filterBy.parametrized ?'default' : 'outline'}>
                         <EllipsisVertical/>
                     </Button>
                 </DropdownMenuTrigger>

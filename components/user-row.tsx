@@ -58,7 +58,7 @@ export default function UserRow({ row, onChange }: UserRowProps) {
         <TableCell>{row.phoneNumber}</TableCell>
         <TableCell>{row.DNI as string}</TableCell>
         <TableCell>{row.role as string}</TableCell>
-        <TableCell className={row.deleted ? ' text-destructive' : ' text-green-300'}>{row.deleted ? 'Eliminado' : 'Activo'}</TableCell>
+        <TableCell className={row.deleted ? ' text-destructive' : ' text-green-500'}>{row.deleted ? 'Eliminado' : 'Activo'}</TableCell>
         <TableCell>
             <Dialog>
                 <DialogTrigger asChild><Button variant='ghost'>Editar</Button></DialogTrigger>
