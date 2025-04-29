@@ -2,10 +2,10 @@ import { Client } from '@/respositorios/client'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(
-	request: NextRequest,
-	{ params }: { params: { dni: string } }
+	_: NextRequest,
+	{ params }: { params: Promise<{ dni: string }> }
 ) {
-	const { dni } = params
+	const { dni } = await params
 
 	if (!dni) {
 		return NextResponse.json({ error: 'DNI no proporcionado' }, { status: 400 })
@@ -24,10 +24,10 @@ export async function GET(
 }
 
 export async function DELETE(
-	request: NextRequest,
-	{ params }: { params: { dni: string } }
+	_: NextRequest,
+	{ params }: { params: Promise<{ dni: string }> }
 ) {
-	const { dni } = params
+	const { dni } = await params
 
 	if (!dni) {
 		return NextResponse.json({ error: 'DNI no proporcionado' }, { status: 400 })
@@ -66,10 +66,10 @@ export async function DELETE(
 }
 
 export async function PATCH(
-	request: NextRequest,
-	{ params }: { params: { dni: string } }
+	_: NextRequest,
+	{ params }: { params: Promise<{ dni: string }> }
 ) {
-	const { dni } = params
+	const { dni } = await params
 
 	if (!dni) {
 		return NextResponse.json({ error: 'DNI no proporcionado' }, { status: 400 })
@@ -109,9 +109,9 @@ export async function PATCH(
 
 export async function PUT(
 	request: NextRequest,
-	{ params }: { params: { dni: string } }
+	{ params }: { params: Promise<{ dni: string }> }
 ) {
-	const { dni } = params
+	const { dni } = await params
 	const data = await request.json()
 
 	if (!dni) {

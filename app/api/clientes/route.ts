@@ -1,8 +1,7 @@
-import db from '@/db/drizzle'
 import { Client } from '@/respositorios/client'
 import { NextResponse } from 'next/server'
 
-export async function GET(request: Request) {
+export async function GET() {
 	const clients = await Client.getAll() // await here!
 	return NextResponse.json(clients) // Return JSON response
 }
