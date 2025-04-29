@@ -1,3 +1,5 @@
+'use client'
+
 import { ChartNoAxesGantt, ChevronDown, ChevronsUpDown, Eye, Home, LogOut, PersonStanding, PlusCircle, Printer, Users } from "lucide-react"
 
 import {
@@ -26,6 +28,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SignOutButton } from "@clerk/nextjs"
+import { usePathname } from "next/navigation"
 import { ThemeSelector } from "./theme-selector"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
 
@@ -95,6 +98,8 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar(props: AppSidebarProps) {
+  const pathname = usePathname()
+
   return (
     <Sidebar>
         <SidebarHeader>
@@ -122,7 +127,7 @@ export function AppSidebar(props: AppSidebarProps) {
                     {item.subItems ? (
                       <Collapsible defaultOpen className="w-full">
                         <CollapsibleTrigger asChild>
-                          <SidebarMenuButton isActive={'isActive' in item && typeof item.isActive === 'boolean' ? item.isActive : false}>
+                          <SidebarMenuButton>
                             <item.icon className="h-4 w-4" />
                             <span>{item.title}</span>
                             <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
@@ -132,7 +137,7 @@ export function AppSidebar(props: AppSidebarProps) {
                           <SidebarMenuSub>
                             {item.subItems.filter(subItem => subItem.roles?.includes(props.user.role)).map((subItem) => (
                               <SidebarMenuSubItem key={subItem.title}>
-                                <SidebarMenuSubButton asChild>
+                                <SidebarMenuSubButton isActive={pathname === item.url + subItem.url} asChild>
                                   <a href={item.url + subItem.url}>
                                     <subItem.icon className="h-4 w-4 mr-2" />
                                     {subItem.title}
@@ -144,7 +149,7 @@ export function AppSidebar(props: AppSidebarProps) {
                         </CollapsibleContent>
                       </Collapsible>
                     ) : (
-                      <SidebarMenuButton asChild isActive={'isActive' in item && typeof item.isActive === 'boolean' ? item.isActive : false}>
+                      <SidebarMenuButton asChild isActive={pathname === item.url}>
                         <a href={item.url}>
                           <item.icon className="h-4 w-4" />
                           <span>{item.title}</span>

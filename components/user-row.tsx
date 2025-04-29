@@ -1,8 +1,8 @@
 'use client'
 
-import activarUsuario from "@/app/(autenticado)/usuarios/administrar/actions/activarUsuario";
-import editarUsuario from "@/app/(autenticado)/usuarios/administrar/actions/editarUsuario";
-import eliminarUsuario from "@/app/(autenticado)/usuarios/administrar/actions/eliminarUsuario";
+import activarUsuario from "@/actions/activarUsuario";
+import editarUsuario from "@/actions/editarUsuario";
+import eliminarUsuario from "@/actions/eliminarUsuario";
 import getCurrentDateForToast from "@/utils/get-current-date-for-toast";
 import { useState } from "react";
 import { toast } from "sonner";

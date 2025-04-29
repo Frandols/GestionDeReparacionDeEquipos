@@ -1,6 +1,6 @@
 'use client'
 
-import { Client } from "@/modelos/client"
+import { Client } from "@/respositorios/client"
 import { EllipsisVertical } from "lucide-react"
 import { useState } from "react"
 import { Button } from "./ui/button"

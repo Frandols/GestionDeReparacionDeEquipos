@@ -6,7 +6,7 @@ import { UserPlus } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-export default function EditarCliente() {
+export default function VistaAdministrarClientePorDNI() {
   const router = useRouter()
   const [isMounted, setIsMounted] = useState(false)
   const [successMessage, setSuccessMessage] = useState('') // <-- Nuevo
@@ -103,8 +103,8 @@ export default function EditarCliente() {
   }
 
   return (
-    <section className='relative flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-600 min-h-screen'>
-      <div className="absolute top-6 left-6">
+    <section className='relative flex flex-col items-center justify-center h-full'>
+      <div className="absolute top-0 left-0">
         <Button
           onClick={() => router.back()}
           className="bg-gradient-to-r from-violet-400 to-violet-800 text-white rounded-md shadow-xl hover:from-violet-500 hover:to-violet-900 transition-all"
@@ -113,14 +113,14 @@ export default function EditarCliente() {
         </Button>
       </div>
 
+      <section className='relative flex flex-col items-center justify-center bg-[#202020]/90 rounded-2xl p-8 w-[350px] h-[600px] space-y-4 shadow-2xl mt-16'>
       <div
-        style={{ top: '10rem' }}
-        className='absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center w-32 h-32 bg-[#202020]/80 rounded-full shadow-2xl'
+        style={{ bottom: 'calc(100% - 32px)' }}
+        className='absolute left-[calc(100% - 32px)] flex items-center justify-center w-32 h-32 bg-[#202020] rounded-full shadow-2xl'
       >
         <UserPlus className='w-20 h-20 text-white' />
       </div>
 
-      <section className='flex flex-col items-center justify-center bg-[#202020]/80 rounded-2xl p-8 w-[350px] h-[600px] space-y-4 shadow-2xl mt-16'>
         <h1 className='text-white text-bold italic font-mono text-2xl'>
           Editar cliente
         </h1>

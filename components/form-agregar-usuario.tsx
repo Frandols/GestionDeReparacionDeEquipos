@@ -1,6 +1,6 @@
 "use client"
 
-import agregarUsuario from "@/app/(autenticado)/usuarios/agregar/actions/agregarUsuario"
+import agregarUsuario from "@/actions/agregarUsuario"
 import getCurrentDateForToast from "@/utils/get-current-date-for-toast"
 import getUserFormSchema from "@/utils/get-user-form-schema"
 import { toast } from "sonner"

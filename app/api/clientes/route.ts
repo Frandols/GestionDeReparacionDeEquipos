@@ -1,5 +1,5 @@
 import db from '@/db/drizzle'
-import { Client } from '@/modelos/client'
+import { Client } from '@/respositorios/client'
 import { NextResponse } from 'next/server'
 
 export async function GET(request: Request) {

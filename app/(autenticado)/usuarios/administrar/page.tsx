@@ -1,8 +1,3 @@
-import TablaUsuarios from "@/components/tabla-usuarios";
-import { obtenerUsuarios } from "./actions/obtenerUsuarios";
+import ControladorAdministrarUsuarios from "@/entidades/usuarios/administrar/controlador";
 
-export default async function AdministrarUsuariosPage() {
-    const users = await obtenerUsuarios()
-
-    return <TablaUsuarios users={users} />
-}
+export default ControladorAdministrarUsuarios
