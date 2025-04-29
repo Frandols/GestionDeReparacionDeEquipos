@@ -1,3 +1,3 @@
-import ControladorVerClientes from "@/entidades/clientes/ver/controlador";
+import ControladorVerClientes from "@/recursos/clientes/ver/controlador";
 
 export default ControladorVerClientes

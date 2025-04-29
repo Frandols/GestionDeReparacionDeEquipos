@@ -1,3 +1,3 @@
-import ControladorAgregarUsuarios from "@/entidades/usuarios/agregar/controlador"
+import ControladorAgregarUsuarios from "@/recursos/usuarios/agregar/controlador"
 
 export default ControladorAgregarUsuarios

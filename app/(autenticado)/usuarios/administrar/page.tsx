@@ -1,3 +1,3 @@
-import ControladorAdministrarUsuarios from "@/entidades/usuarios/administrar/controlador";
+import ControladorAdministrarUsuarios from "@/recursos/usuarios/administrar/controlador";
 
 export default ControladorAdministrarUsuarios

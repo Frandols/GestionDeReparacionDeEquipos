@@ -1,5 +1,5 @@
 'use client'
 
-import ControladorAdministrarClientes from "@/entidades/clientes/administrar/controlador";
+import ControladorAdministrarClientes from "@/recursos/clientes/administrar/controlador";
 
 export default ControladorAdministrarClientes

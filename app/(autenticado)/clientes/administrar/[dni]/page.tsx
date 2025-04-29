@@ -1,3 +1,3 @@
-import ControladorAdministrarClientePorDNI from "@/entidades/clientes/administrar/porDni/controlador";
+import ControladorAdministrarClientePorDNI from "@/recursos/clientes/administrar/porDni/controlador";
 
 export default ControladorAdministrarClientePorDNI

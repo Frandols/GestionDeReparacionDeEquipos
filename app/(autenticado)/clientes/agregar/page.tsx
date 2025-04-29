@@ -1,3 +1,3 @@
-import ControladorAgregarCliente from "@/entidades/clientes/agregar/controlador";
+import ControladorAgregarCliente from "@/recursos/clientes/agregar/controlador";
 
 export default ControladorAgregarCliente
