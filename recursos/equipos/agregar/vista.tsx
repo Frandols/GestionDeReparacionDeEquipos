@@ -6,8 +6,8 @@ import { Laptop2, User } from 'lucide-react'
 export default function vistaAgregarEquipo() {
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-[#0f172a] text-white font-mono">
-            <div className="flex w-[90%] max-w-5xl bg-[#1e293b] rounded-2xl shadow-2xl p-6 mt-10 space-x-6">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-[#0f172a] text-white font-mono border-white">
+            <div className="flex w-[90%] max-w-5xl bg-[#1e293b] rounded-2xl shadow-2xl p-6 mt-10 space-x-6 border-wwite">
 
                 {/* Sección izquierda: Asociar cliente */}
                 <div className="w-1/2 flex flex-col space-y-4 p-4">
