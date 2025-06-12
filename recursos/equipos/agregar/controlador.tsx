@@ -1,5 +1,5 @@
 import vistaAgregarEquipo from "./vista";
 
-export default function ControladorAgregarEquipo{
+export default function ControladorAgregarEquipo(){
     return vistaAgregarEquipo()
 }
