@@ -88,7 +88,7 @@ export const navItems = [
   },
   {
     title: "Equipos",
-    url: "/admin/equipos",
+    url: "/equipos",
     icon: HardDrive,
     roles: ['administrador'],
     subItems: [
