@@ -96,6 +96,7 @@ export const navItems = [
         title: "Agregar",
         icon: CirclePlus,
         url: "/agregar",
+        roles: ['administrador'],
       },
 
     ],
