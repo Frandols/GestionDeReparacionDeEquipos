@@ -1,13 +1,49 @@
+'use client'
+
+
+interface Cliente {
+    id: number
+    firstName: string
+    lastName: string
+    dni: string
+    email: string
+    phoneNumber: string
+    deleted: boolean
+}
+
+
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Laptop2, User } from 'lucide-react'
+import { useEffect, useState } from 'react'
+
+
 
 
 export default function vistaAgregarEquipo() {
 
+    const [clientes, setClientes] = useState<Cliente[]>([])
+
+    useEffect(() => {
+        async function cargarClientes() {
+            try {
+                const res = await fetch('/api/clientes')
+                const data = await res.json()
+                const clientesActivos = data.filter((cliente: any) => cliente.deleted === false)
+                setClientes(clientesActivos)
+            } catch (error) {
+                console.error('Error al cargar clientes', error)
+            }
+        }
+
+        cargarClientes()
+    }, [])
+
+
+
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-[#0f172a] text-white font-mono border-white">
-            <div className="flex w-[90%] max-w-5xl bg-[#1e293b] rounded-2xl shadow-2xl p-6 mt-10 space-x-6 border-wwite">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-[#0f172a] text-white font-mono">
+            <div className="flex w-[90%] max-w-7xl bg-[#1e293b] rounded-2xl shadow-2xl p-6 mt-10 space-x-6">
 
                 {/* Sección izquierda: Asociar cliente */}
                 <div className="w-1/2 flex flex-col space-y-4 p-4">
@@ -17,11 +53,19 @@ export default function vistaAgregarEquipo() {
                     </div>
 
                     <select className="bg-[#334155] text-white px-4 py-2 rounded focus:outline-none">
-                        <option>44293877 - Francisco</option>
-                        <option>44211233 - Julia</option>
+                        <option value="" disabled hidden>
+                            Seleccione un cliente
+                        </option>
+                        {clientes
+                            .filter((c) => c.id !== undefined)
+                            .map((cliente) => (
+                                <option key={cliente.id} value={cliente.id.toString()}>
+                                    {cliente.dni} - {cliente.firstName} {cliente.lastName}
+                                </option>
+                            ))}
                     </select>
 
-                    <Button className="bg-violet-700 hover:bg-violet-800 transition-all">
+                    <Button className="bg-violet-700 hover:bg-violet-800 transition-all text-white">
                         Agregar cliente
                     </Button>
                 </div>
@@ -37,8 +81,9 @@ export default function vistaAgregarEquipo() {
                         <label>Tipo de equipo</label>
                         <select className="bg-[#334155] text-white px-4 py-2 rounded">
                             <option>Impresora con inyección de tinta</option>
-                            <option>Láser</option>
-                            <option>Notebook</option>
+                            <option>Impresora Láser</option>
+                            <option>Computadora</option>
+                            <option>Fotocopiadora</option>
                         </select>
 
                         <label>N° de serie</label>
@@ -68,7 +113,7 @@ export default function vistaAgregarEquipo() {
                         <label>Marcar si el equipo enciende a la hora de ingresar</label>
                     </div>
 
-                    <Button className="bg-gradient-to-r from-violet-500 to-violet-800 hover:from-violet-600 hover:to-violet-900 transition-all mt-4">
+                    <Button className="bg-gradient-to-r from-violet-500 to-violet-800 hover:from-violet-600 hover:to-violet-900 transition-all mt-4 text-white">
                         Agregar equipo
                     </Button>
                 </div>
@@ -77,4 +122,3 @@ export default function vistaAgregarEquipo() {
     )
 }
 
-    

@@ -1,4 +1,5 @@
-import { boolean, pgTable, serial, varchar } from 'drizzle-orm/pg-core'
+import { boolean, integer, pgTable, serial, text, varchar } from 'drizzle-orm/pg-core'
+
 
 export const clients = pgTable('clients', {
 	id: serial('id').primaryKey(),
@@ -9,3 +10,25 @@ export const clients = pgTable('clients', {
 	phoneNumber: varchar('phone_number', { length: 20 }).notNull(),
 	deleted: boolean().default(false).notNull(),
 })
+
+export const equipos = pgTable('equipos', {
+	id: serial('id').primaryKey(),
+	idCliente: integer('id_cliente').notNull().references(() => clients.id),
+	nroSerie: varchar('nro_serie', { length: 100 }).notNull(),
+	idMarca: integer('id_marca').notNull().references(() => marcas.id),
+	idModelo: integer('id_modelo').notNull().references(() => modelos.id),
+	razonDeIngreso: text('razon_de_ingreso').notNull(),
+	observaciones: text('observaciones').notNull(),
+	enciende: boolean('enciende').notNull().default(false),
+})
+
+export const marcas = pgTable('marcas', {
+	id: serial('id').primaryKey(),
+	descripcion: text('descripcion').notNull(),
+})
+
+export const modelos = pgTable('modelos', {
+	id: serial('id').primaryKey(),
+	descripcion: text('descripcion').notNull(),
+})
+
