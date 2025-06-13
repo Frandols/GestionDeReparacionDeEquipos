@@ -14,6 +14,7 @@ export const clients = pgTable('clients', {
 export const equipos = pgTable('equipos', {
 	id: serial('id').primaryKey(),
 	idCliente: integer('id_cliente').notNull().references(() => clients.id),
+	idTipoDeEquipo: integer('id_modelo').notNull().references(() => tipoDeEquipo.id),
 	nroSerie: varchar('nro_serie', { length: 100 }).notNull(),
 	idMarca: integer('id_marca').notNull().references(() => marcas.id),
 	idModelo: integer('id_modelo').notNull().references(() => modelos.id),
@@ -28,6 +29,11 @@ export const marcas = pgTable('marcas', {
 })
 
 export const modelos = pgTable('modelos', {
+	id: serial('id').primaryKey(),
+	descripcion: text('descripcion').notNull(),
+})
+
+export const tipoDeEquipo = pgTable('tipoDeEquipo', {
 	id: serial('id').primaryKey(),
 	descripcion: text('descripcion').notNull(),
 })
