@@ -1,6 +1,8 @@
 import {
   ChevronDown,
   ChevronsUpDown,
+  CirclePlus,
+  HardDrive,
   Home,
   LineChart,
   LogOut,
@@ -62,6 +64,19 @@ export const navItems = [
         icon: Wallet,
         url: "/administrar",
       },
+    ],
+  },
+  {
+    title: "Equipos",
+    url: "/admin/equipos",
+    icon: HardDrive,
+    subItems: [
+      {
+      title: "Agregar",
+      icon: CirclePlus,
+      url: "/agregar",
+      },
+
     ],
   },
 ];
