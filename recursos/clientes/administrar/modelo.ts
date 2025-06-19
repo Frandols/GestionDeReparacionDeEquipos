@@ -1,4 +1,4 @@
-import { Client, ClientData } from '@/respositorios/client'
+import { Client, ClienteAdaptado } from '@/respositorios/client'
 import { clerkClient, User } from '@clerk/nextjs/server'
 
 const modeloAdministrarClientes = {
@@ -44,7 +44,7 @@ const modeloAdministrarClientes = {
 	async modificarCliente(
 		userId: User['id'],
 		clienteDNI: Client['dni'],
-		datosActualizados: Partial<ClientData>
+		datosActualizados: Partial<ClienteAdaptado>
 	) {
 		const clerk = await clerkClient()
 

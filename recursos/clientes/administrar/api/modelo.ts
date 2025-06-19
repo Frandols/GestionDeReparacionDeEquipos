@@ -1,4 +1,4 @@
-import { Client, ClientData } from '@/respositorios/client'
+import { Client, ClienteAdaptado } from '@/respositorios/client'
 import { clerkClient, User } from '@clerk/nextjs/server'
 
 const modeloClientes = {
@@ -7,7 +7,7 @@ const modeloClientes = {
 
 		return clients
 	},
-	async crear(userId: User['id'], datos: Partial<ClientData>) {
+	async crear(userId: User['id'], datos: Partial<ClienteAdaptado>) {
 		const clerk = await clerkClient()
 
 		const userData = await clerk.users.getUser(userId)

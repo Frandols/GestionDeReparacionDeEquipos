@@ -2,15 +2,11 @@ import db from '@/db/drizzle'
 import { clients } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 
-export interface ClientData {
-	id?: number
-	firstName: string
-	lastName: string
-	dni: string
-	email: string
-	phoneNumber: string
-	deleted: boolean
-}
+/*
+  Tenemos un cliente adaptado ya que el servidor no puede enviar metodos
+*/
+export type ClienteAdaptado = Omit<Client, 'save' | 'getAll'> &
+	Required<Pick<Client, 'id'>>
 
 export class Client {
 	id?: number
@@ -21,7 +17,7 @@ export class Client {
 	phoneNumber: string
 	deleted: boolean
 
-	private constructor(params: ClientData) {
+	private constructor(params: ClienteAdaptado) {
 		this.id = params.id
 		this.firstName = params.firstName
 		this.lastName = params.lastName
@@ -31,7 +27,7 @@ export class Client {
 		this.deleted = params.deleted
 	}
 
-	static create(params: Partial<ClientData>): Client | Error {
+	static create(params: Partial<ClienteAdaptado>): Client | Error {
 		if (!params.firstName || params.firstName.trim() === '') {
 			return new Error('First name is required.')
 		}
@@ -48,7 +44,7 @@ export class Client {
 			return new Error('Phone number is required.')
 		}
 
-		return new Client(params as ClientData)
+		return new Client(params as ClienteAdaptado)
 	}
 
 	private static isValidEmail(email: string): boolean {
@@ -95,10 +91,22 @@ export class Client {
 		return new Client(clientData)
 	}
 
-	static async getAll(): Promise<Client[]> {
+	static async getAll(): Promise<ClienteAdaptado[]> {
 		const result = await db.select().from(clients)
-		console.log(result)
-		return result.map((clientData) => new Client(clientData))
+
+		return result.map((clientData) => {
+			const client = new Client(clientData)
+
+			return {
+				id: clientData.id,
+				firstName: client.firstName,
+				lastName: client.lastName,
+				dni: client.dni,
+				email: client.email,
+				phoneNumber: client.phoneNumber,
+				deleted: client.deleted,
+			}
+		})
 	}
 
 	static async deleteByDni(dni: string): Promise<boolean> {
@@ -133,18 +141,20 @@ export class Client {
 		}
 	}
 
-	static async updateByDni(dni: string, data: Partial<ClientData>): Promise<boolean> {
+	static async updateByDni(
+		dni: string,
+		data: Partial<ClienteAdaptado>
+	): Promise<boolean> {
 		try {
-		  const result = await db
-			.update(clients)
-			.set(data)
-			.where(eq(clients.dni, dni))
-	  
-		  return result ? true : false
+			const result = await db
+				.update(clients)
+				.set(data)
+				.where(eq(clients.dni, dni))
+
+			return result ? true : false
 		} catch (error) {
-		  console.error('Error al actualizar cliente:', error)
-		  return false
+			console.error('Error al actualizar cliente:', error)
+			return false
 		}
-	  }
-	  
+	}
 }

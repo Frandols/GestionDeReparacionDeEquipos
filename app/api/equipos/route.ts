@@ -1,6 +1,9 @@
-import { obtenerEquipos, crearEquipo, actualizarEquipo, eliminarEquipo } from "@/recursos/equipos/administrar/api/controlador";
-
-
+import {
+	actualizarEquipo,
+	crearEquipo,
+	eliminarEquipo,
+	obtenerEquipos,
+} from '@/recursos/equipos/agregar/api/controlador'
 
 /**
  * Handler para la solicitud GET que obtiene todos los equipos.
@@ -8,9 +11,8 @@ import { obtenerEquipos, crearEquipo, actualizarEquipo, eliminarEquipo } from "@
  * @returns Respuesta con el listado de equipos en formato JSON.
  */
 export async function GET(req: Request) {
-  return obtenerEquipos(req);
+	return obtenerEquipos(req)
 }
-
 
 /**
  * Handler para la solicitud POST que crea un nuevo equipo.
@@ -18,7 +20,7 @@ export async function GET(req: Request) {
  * @returns Respuesta con el equipo creado en formato JSON.
  */
 export async function POST(req: Request) {
-  return crearEquipo(req);
+	return crearEquipo(req)
 }
 
 /**
@@ -27,7 +29,7 @@ export async function POST(req: Request) {
  * @returns Respuesta con el equipo actualizado en formato JSON.
  */
 export async function PUT(req: Request) {
-  return actualizarEquipo(req);
+	return actualizarEquipo(req)
 }
 
 /**
@@ -36,5 +38,5 @@ export async function PUT(req: Request) {
  * @returns Respuesta con estado 204 sin contenido.
  */
 export async function DELETE(req: Request) {
-  return eliminarEquipo(req);
+	return eliminarEquipo(req)
 }

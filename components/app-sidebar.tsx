@@ -98,7 +98,12 @@ export const navItems = [
         url: "/agregar",
         roles: ['administrador'],
       },
-
+      {
+        title: "Administrar",
+        icon: ChartNoAxesGantt,
+        url: "/administrar",
+        roles: ['administrador'],
+      },
     ],
   },
 ]

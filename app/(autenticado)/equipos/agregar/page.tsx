@@ -1,3 +1,3 @@
-import ControladorAgregarEquipo from "@/recursos/equipos/administrar/controlador";
+import ControladorAgregarEquipo from "@/recursos/equipos/agregar/controlador"
 
 export default ControladorAgregarEquipo
