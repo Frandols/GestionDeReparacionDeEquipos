@@ -8,6 +8,10 @@ export function useAgregarEquipo() {
 
     // Se declaran variables
 
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
+
     ///Variables que utilizo para: el input a la hora de agregar un nuevo tipo de equipo, para abrir y cerrar el modal, y para el array que utilizo a la hora de mostrar los equipos
     const [nuevoTipo, setNuevoTipo] = useState('')
     const [modalTDEAbierto, setModalTDEAbierto] = useState(false);
@@ -28,13 +32,13 @@ export function useAgregarEquipo() {
 
     /// Objeto que contiene los datos actuales del formulario para luego agregar un equipo
     const [formData, setFormData] = useState({
-        idCliente: '',          
+        idCliente: '',
         nroSerie: '',
         idMarca: '',
         idModelo: '',
         razonDeIngreso: '',
         observaciones: '',
-        enciende: false,        
+        enciende: false,
         idTipoDeEquipo: '',
     })
 
@@ -55,7 +59,10 @@ export function useAgregarEquipo() {
 
     //Funcion asincronica que se e ejecuta para agregar un equipo
     const handleSubmit = async () => {
+        setErrorMessage('');
+        setSuccessMessage('');
         // Validaciones básicas
+
         if (
             !formData.idCliente ||
             !formData.idTipoDeEquipo ||
@@ -65,7 +72,7 @@ export function useAgregarEquipo() {
             !(formData.razonDeIngreso || '').trim() ||
             !(formData.observaciones || '').trim()
         ) {
-            alert('Por favor complete todos los campos obligatorios.');
+             setErrorMessage('Por favor complete todos los campos obligatorios.');
             return;
         }
 
@@ -92,7 +99,7 @@ export function useAgregarEquipo() {
             const data = await response.json();
             console.log('Equipo agregado:', data);
 
-            alert('Equipo agregado exitosamente.');
+            setSuccessMessage('Equipo agregado exitosamente.');
 
             // Limpiar formulario
             setFormData({
@@ -107,7 +114,7 @@ export function useAgregarEquipo() {
             });
         } catch (error) {
             console.error(error);
-            alert('Error al agregar equipo.');
+            setErrorMessage('Error al agregar equipo.');
         }
     };
 
@@ -155,7 +162,7 @@ export function useAgregarEquipo() {
 
             if (res.ok) {
                 const nuevo = await res.json()
-                 ///Actualiza la lista
+                ///Actualiza la lista
                 setModelos((prev) => [...prev, nuevo]);
                 ///Borra el input
                 setNuevoModelo('')
@@ -265,7 +272,7 @@ export function useAgregarEquipo() {
         nuevaMarca, setNuevaMarca, modalMarcaAbierto, setModalMarcaAbierto, marcas,
         nuevoModelo, setNuevoModelo, modalModeloAbierto, setModalModeloAbierto, modelos,
         clientes, formData, handleChange, handleCheckboxChange, handleSubmit,
-        agregarTipoDeEquipo, agregarMarca, agregarModelo
+        agregarTipoDeEquipo, agregarMarca, agregarModelo, successMessage, errorMessage
     }
 
 }

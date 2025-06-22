@@ -13,13 +13,13 @@ import { useAgregarEquipo } from './hooks'
 
 export default function vistaAgregarEquipo() {
 
-//-- Se obtienen las variables y las funciones que se utilizaran en la vista
+    //-- Se obtienen las variables y las funciones que se utilizaran en la vista
     const {
         nuevoTipo, setNuevoTipo, modalTDEAbierto, setModalTDEAbierto, tipoDeEquipo,
         nuevaMarca, setNuevaMarca, modalMarcaAbierto, setModalMarcaAbierto, marcas,
         nuevoModelo, setNuevoModelo, modalModeloAbierto, setModalModeloAbierto, modelos,
         clientes, formData, handleChange, handleCheckboxChange, handleSubmit,
-        agregarTipoDeEquipo, agregarMarca, agregarModelo
+        agregarTipoDeEquipo, agregarMarca, agregarModelo, successMessage, errorMessage
     } = useAgregarEquipo()
 
 
@@ -227,6 +227,8 @@ export default function vistaAgregarEquipo() {
                     <Button className="bg-gradient-to-r from-violet-500 to-violet-800 hover:from-violet-600 hover:to-violet-900 transition-all mt-4 text-white" onClick={handleSubmit}>
                         Agregar equipo
                     </Button>
+                    {successMessage && <p className="text-green-600 mt-2">{successMessage}</p>}
+                    {errorMessage && <p className="text-red-600 mt-2">{errorMessage}</p>}
                 </div>
             </div>
         </div>
