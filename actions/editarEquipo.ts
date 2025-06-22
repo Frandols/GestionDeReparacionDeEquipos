@@ -1,10 +1,10 @@
 'use server'
 
-import { ActualizacionDeEquipo, Equipo } from '@/respositorios/equipo'
+import { Equipo, EquipoPayloadActualizacion } from '@/respositorios/equipo'
 
 export default async function editarEquipo(
 	id: number,
-	actualizacion: ActualizacionDeEquipo
+	actualizacion: EquipoPayloadActualizacion
 ) {
 	const equipo = new Equipo({ id, ...actualizacion })
 

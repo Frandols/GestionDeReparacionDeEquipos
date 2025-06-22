@@ -2,10 +2,10 @@
 
 import db from '@/db/drizzle'
 import { equipos } from '@/db/schema'
-import { EquipoAdaptado } from '@/respositorios/equipo'
+import { EquipoPayloadRespuesta } from '@/respositorios/equipo'
 import { eq } from 'drizzle-orm'
 
-export default async function eliminarEquipo(equipo: EquipoAdaptado) {
+export default async function eliminarEquipo(equipo: EquipoPayloadRespuesta) {
 	await db
 		.update(equipos)
 		.set({ deleted: true })

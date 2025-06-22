@@ -1,5 +1,12 @@
-import { boolean, integer, pgTable, serial, text, varchar } from 'drizzle-orm/pg-core'
-
+import {
+	boolean,
+	integer,
+	pgTable,
+	serial,
+	text,
+	timestamp,
+	varchar,
+} from 'drizzle-orm/pg-core'
 
 export const clients = pgTable('clients', {
 	id: serial('id').primaryKey(),
@@ -16,14 +23,22 @@ export const clients = pgTable('clients', {
  */
 export const equipos = pgTable('equipos', {
 	id: serial('id').primaryKey(),
-	idCliente: integer('id_cliente').notNull().references(() => clients.id),
+	idCliente: integer('id_cliente')
+		.notNull()
+		.references(() => clients.id),
 	nroSerie: varchar('nro_serie', { length: 100 }).notNull(),
-	idMarca: integer('id_marca').notNull().references(() => marcas.id),
-	idModelo: integer('id_modelo').notNull().references(() => modelos.id),
+	idMarca: integer('id_marca')
+		.notNull()
+		.references(() => marcas.id),
+	idModelo: integer('id_modelo')
+		.notNull()
+		.references(() => modelos.id),
 	razonDeIngreso: text('razon_de_ingreso').notNull(),
 	observaciones: text('observaciones').notNull(),
 	enciende: boolean('enciende').notNull().default(false),
-	idTipoDeEquipo: integer('id_tipoDeEquipo').notNull().references(() => tipoDeEquipo.id),
+	idTipoDeEquipo: integer('id_tipoDeEquipo')
+		.notNull()
+		.references(() => tipoDeEquipo.id),
 	deleted: boolean('deleted').notNull().default(false),
 })
 
@@ -51,3 +66,43 @@ export const tipoDeEquipo = pgTable('tipoDeEquipo', {
 	descripcion: text('descripcion').notNull(),
 })
 
+export const revisiones = pgTable('revisiones', {
+	idEquipo: serial()
+		.references(() => equipos.id)
+		.primaryKey(),
+	fechaDeFinalizacion: timestamp({ mode: 'date' }),
+	observaciones: text(),
+})
+
+export const presupuestos = pgTable('presupuestos', {
+	id: serial().primaryKey(),
+	idRevision: serial().references(() => revisiones.idEquipo),
+	monto: integer().notNull(),
+	detalles: text().notNull(),
+	aprobado: boolean(),
+})
+
+export const reparaciones = pgTable('reparaciones', {
+	idPresupuesto: serial()
+		.references(() => presupuestos.id)
+		.primaryKey(),
+	observaciones: text(),
+	fechaDeFinalizacion: timestamp({ mode: 'date' }),
+	reparado: boolean(),
+	irreparable: boolean().default(false).notNull(),
+	idUsuario: text().notNull(),
+})
+
+export const entregas = pgTable('entregas', {
+	idEquipo: serial()
+		.primaryKey()
+		.references(() => equipos.id),
+	idReparacion: serial(),
+	fecha: timestamp({ mode: 'date' }).notNull(),
+	idMetodoDePago: serial(),
+})
+
+export const metodosDePago = pgTable('metodosDePago', {
+	id: serial().primaryKey(),
+	nombre: text('nombre').notNull(),
+})

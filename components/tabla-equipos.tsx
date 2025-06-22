@@ -1,17 +1,19 @@
 'use client'
 
 import { ClienteAdaptado } from "@/respositorios/client"
-import { EquipoAdaptado } from "@/respositorios/equipo"
+import { EquipoPayloadRespuesta } from "@/respositorios/equipo"
 import { MarcaAdaptada } from "@/respositorios/marcas"
+import { MetodoDePagoPayloadRespuesta } from "@/respositorios/metodosDePago"
 import { ModeloAdaptado } from "@/respositorios/modelos"
 import { TipoDeEquipoAdaptado } from "@/respositorios/tipoDeEquipo"
 import { EllipsisVertical } from "lucide-react"
 import { createContext, useContext, useState } from "react"
 import EquipoRow from "./equipo-row"
 import { Button } from "./ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Input } from "./ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
+import { Separator } from "./ui/separator"
 import { Table, TableBody, TableCaption, TableHead, TableHeader, TableRow } from "./ui/table"
 
 const filtros = [
@@ -29,7 +31,7 @@ const filtros = [
     }
 ] as const
 
-type ParametrizedFilter = { value: keyof EquipoAdaptado; name: string; }
+type ParametrizedFilter = { value: keyof EquipoPayloadRespuesta; name: string; }
 
 const filtrosParametrizados: Array<ParametrizedFilter> = [
     {
@@ -56,7 +58,7 @@ const filtrosParametrizados: Array<ParametrizedFilter> = [
 
 type Filter = typeof filtros[number]
 
-function obtenerEquiposFiltrados(equipos: EquipoAdaptado[], filtro: Exclude<FilterBy, null>) {
+function obtenerEquiposFiltrados(equipos: EquipoPayloadRespuesta[], filtro: Exclude<FilterBy, null>) {
     if(filtro.parametrized && filtro.param !== '') return equipos.filter(equipo => {
         const field = equipo[filtro.value]
 
@@ -76,12 +78,13 @@ function obtenerEquiposFiltrados(equipos: EquipoAdaptado[], filtro: Exclude<Filt
 type FilterBy = (Filter & { parametrized: false }) | (ParametrizedFilter & { parametrized: true; param: string }) | null
 
 interface TablaEquiposProps {
-    equipos: EquipoAdaptado[]
+    equipos: EquipoPayloadRespuesta[]
     showActions: boolean
     clientes: ClienteAdaptado[], 
     tiposDeEquipo: TipoDeEquipoAdaptado[], 
     marcas: MarcaAdaptada[], 
     modelos: ModeloAdaptado[]
+    metodosDePago: MetodoDePagoPayloadRespuesta[]
 }
 
 interface TablaEquiposContextValues {
@@ -89,7 +92,8 @@ interface TablaEquiposContextValues {
     tiposDeEquipo: TipoDeEquipoAdaptado[], 
     marcas: MarcaAdaptada[], 
     modelos: ModeloAdaptado[]
-    actualizarEquipo: (equipo: EquipoAdaptado) => void
+    metodosDePago: MetodoDePagoPayloadRespuesta[]
+    actualizarEquipo: (equipo: EquipoPayloadRespuesta) => void
 }
 
 const TablaEquiposContext = createContext<TablaEquiposContextValues | null>(null)
@@ -105,12 +109,12 @@ export const useTablaEquipos = () => {
 }
 
 export default function TablaEquipos(props: TablaEquiposProps) {
-    const [equipos, setEquipos] = useState<EquipoAdaptado[]>(props.equipos)
+    const [equipos, setEquipos] = useState<EquipoPayloadRespuesta[]>(props.equipos)
     const [filterBy, setFilterBy] = useState<FilterBy>(null)
 
     const equiposFiltrados = filterBy !== null ? obtenerEquiposFiltrados(equipos, filterBy) : equipos
 
-    const actualizarEquipo = (equipoActualizado: EquipoAdaptado) => {
+    const actualizarEquipo = (equipoActualizado: EquipoPayloadRespuesta) => {
         setEquipos(equipos.map(
             equipo => {
                 if(equipo.id === equipoActualizado.id) {
@@ -130,6 +134,7 @@ export default function TablaEquipos(props: TablaEquiposProps) {
         tiposDeEquipo: props.tiposDeEquipo, 
         marcas: props.marcas, 
         modelos: props.modelos,
+        metodosDePago: props.metodosDePago,
         actualizarEquipo
     }}>
         <div className="flex flex-col gap-2">
@@ -142,15 +147,15 @@ export default function TablaEquipos(props: TablaEquiposProps) {
                         variant={((filterBy?.value || null) === filtro.value) ? 'default' : 'outline'}>{filtro.name}</Button>
                     )
                 }
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+                <Popover>
+                    <PopoverTrigger asChild>
                         <Button variant={filterBy !== null && filterBy.parametrized ?'default' : 'outline'}>
                             <EllipsisVertical/>
                         </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start" side="right">
-                        <DropdownMenuLabel>Filtrar por:</DropdownMenuLabel>
-                        <div className="p-1">
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0">
+                        <div className="p-3 flex flex-col gap-2">
+                            <p className="font-semibold">Filtrar por:</p>
                             <Select defaultValue={filterBy?.parametrized ? filterBy.value : ''} onValueChange={filterValue => {
                                 const filter = filtrosParametrizados.find(filtro => filtro.value === filterValue) as ParametrizedFilter
 
@@ -171,41 +176,38 @@ export default function TablaEquipos(props: TablaEquiposProps) {
                         {
                             filterBy !== null && filterBy.parametrized
                             ? <>
-                                <DropdownMenuSeparator />
-                                <div className="p-1">
-                                    <DropdownMenuLabel>Buscar:</DropdownMenuLabel>
-                                    <Input defaultValue={filterBy.param} placeholder={`${filterBy.name}...`} onChange={(event) => {
+                                <Separator className="mb-3" />
+                                <div className="p-3 pt-0 flex flex-col gap-2">
+                                    <p className="font-semibold">Buscar {filterBy.name}:</p>
+                                    <Input defaultValue={filterBy.param} placeholder={`Escribe aqui...`} onChange={(event) => {
                                         const value = event.target.value
 
                                         setFilterBy({ ...filterBy, param: value })
                                     }} />
-                                    <p className="text-sm text-muted-foreground mt-1">Ingresa el valor que deseas buscar</p>
                                 </div>
                             </>
                             : null
                         }
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                    </PopoverContent>
+                </Popover>
             </div>
             <Table>
                 <TableCaption>Lista de todos los equipos</TableCaption>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]">ID</TableHead>
+                        <TableHead className="w-[100px]">Cliente</TableHead>
                         <TableHead>Tipo de equipo</TableHead>
                         <TableHead>Marca</TableHead>
                         <TableHead>Modelo</TableHead>
-                        <TableHead>Cliente</TableHead>
-                        <TableHead>Observaciones</TableHead>
-                        <TableHead>Razon de ingreso</TableHead>
                         <TableHead>Numero de serie</TableHead>
                         <TableHead>Enciende</TableHead>
-                        <TableHead className="text-right">Estado</TableHead>
+                        <TableHead>Estado</TableHead>
+                        <TableHead>De baja</TableHead>
+                        <TableHead className={props.showActions ? 'text-left' : 'text-right'}>Mas informacion</TableHead>
                         {
                             props.showActions
                             ? <>
-                                <TableHead className="text-right">-</TableHead>
-                                <TableHead className="text-right">-</TableHead>
+                                <TableHead className="text-right">Acciones</TableHead>
                             </>
                             : null
                         }
