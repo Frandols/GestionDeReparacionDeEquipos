@@ -43,6 +43,7 @@ export async function crearEquipo(req: Request) {
     observaciones,
     enciende,
     idTipoDeEquipo,
+    deleted: false
   });
 
   await equipo.save();
