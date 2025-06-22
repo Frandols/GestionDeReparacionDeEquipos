@@ -233,7 +233,7 @@ export class Equipo {
 								  }),
 					  },
 			entrega:
-				row.entregas_idreparacion === null
+				row.entregas_idequipo === null
 					? null
 					: {
 							fecha: row.entregas_fecha as Date,
