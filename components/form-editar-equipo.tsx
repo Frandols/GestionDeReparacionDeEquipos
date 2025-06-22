@@ -15,13 +15,13 @@ import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 const formEditarEquipoSchema = z.object({
-    idCliente: z.number().int().positive(),
-    idTipoDeEquipo: z.number().int().positive(),
+    idCliente: z.number().int('El numero debe ser entero').positive('El numero debe ser positivo'),
+    idTipoDeEquipo: z.number().int('El numero debe ser entero').positive('El numero debe ser positivo'),
     nroSerie: z.string().min(1),
-    idMarca: z.number().int().positive(),
-    idModelo: z.number().int().positive(),
-    razonDeIngreso: z.string().min(1),
-    observaciones: z.string(),
+    idMarca: z.number().int('El numero debe ser entero').positive('El numero debe ser positivo'),
+    idModelo: z.number().int('El numero debe ser entero').positive('El numero debe ser positivo'),
+    razonDeIngreso: z.string().min(1, 'La razon de ingreso no puede estar vacia'),
+    observaciones: z.string().min(1, 'Las observaciones no pueden estar vacias'),
     enciende: z.boolean(),
 })
 

@@ -5,13 +5,13 @@
 'use marcas'
 'use tipoDeEquipo'
 
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Laptop2, User } from 'lucide-react'
 import { useAgregarEquipo } from './hooks'
 
 
-export default function vistaAgregarEquipo() {
+export default function VistaAgregarEquipo() {
 
     //-- Se obtienen las variables y las funciones que se utilizaran en la vista
     const {

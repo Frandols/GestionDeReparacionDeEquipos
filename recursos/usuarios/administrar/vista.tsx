@@ -1,6 +1,6 @@
 import TablaUsuarios from "@/components/tabla-usuarios"
-import modeloAdministrarUsuarios from "./modelo"
+import Usuario from "../modelo"
 
-export default function VistaAdministrarUsuarios(usuarios: Awaited<ReturnType<typeof modeloAdministrarUsuarios.obtenerUsuarios>>) {
+export default function VistaAdministrarUsuarios(usuarios: Awaited<ReturnType<typeof Usuario.obtenerUsuarios>>) {
     return <TablaUsuarios users={usuarios} />
 }

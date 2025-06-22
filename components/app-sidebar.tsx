@@ -29,7 +29,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { SignOutButton } from "@clerk/nextjs"
 import { usePathname } from "next/navigation"
-import { ThemeSelector } from "./theme-selector"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
 
 export const navItems = [
@@ -199,7 +198,6 @@ export function AppSidebar(props: AppSidebarProps) {
                 <DropdownMenuLabel>
                   <div className="flex justify-between gap-3">
                     <UserCard {...props.user} />
-                    <ThemeSelector />
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />

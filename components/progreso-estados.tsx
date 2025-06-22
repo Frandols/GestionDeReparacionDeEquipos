@@ -888,5 +888,5 @@ function Entrega(props: PasoProps) {
 }
 
 function WarningIndicator(props: React.PropsWithChildren) {
-    return <p className="bg-accent border border-gray-300 text-gray-500 p-2 rounded-lg py-1 font-medium grid grid-cols-[24px_auto] gap-2 items-center"><CircleAlert size={24}/> {props.children}</p>
+    return <p className="bg-accent border border-gray-300 p-2 rounded-lg py-1 font-medium grid grid-cols-[24px_auto] gap-2 items-center"><CircleAlert size={24}/> {props.children}</p>
 }

@@ -27,7 +27,7 @@ export class Client {
 		this.deleted = params.deleted
 	}
 
-	static create(params: Partial<ClienteAdaptado>): Client | Error {
+	static validarCliente(params: Partial<ClienteAdaptado>) {
 		if (
 			!params.firstName?.trim() ||
 			!params.lastName?.trim() ||
@@ -50,6 +50,10 @@ export class Client {
 			return new Error('PHONE_INVALIDO')
 		}
 
+		return true
+	}
+
+	static create(params: Partial<ClienteAdaptado>): Client | Error {
 		return new Client(params as ClienteAdaptado)
 	}
 
@@ -82,7 +86,6 @@ export class Client {
 			throw error
 		}
 	}
-
 
 	static async getByDni(dni: string): Promise<Client | null> {
 		const result = await db

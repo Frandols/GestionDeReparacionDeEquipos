@@ -1,6 +1,6 @@
 'use client'
 
-import vistaAgregarEquipo from "./vista"
+import VistaAgregarEquipo from "./vista"
 
 /**
  * Componente controlador que simplemente renderiza
@@ -10,5 +10,5 @@ import vistaAgregarEquipo from "./vista"
  * solo delega la representación a la vista.
  */
 export default function ControladorAgregarEquipo() {
-  return vistaAgregarEquipo()
+  return VistaAgregarEquipo()
 }

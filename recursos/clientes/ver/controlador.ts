@@ -1,8 +1,8 @@
-import modeloVerClientes from './modelo'
+import Cliente from '../modelo'
 import VistaVerClientes from './vista'
 
 export default async function ControladorVerClientes() {
-	const clientes = await modeloVerClientes.obtenerClientes()
+	const clientes = await Cliente.obtenerClientes()
 
 	return VistaVerClientes(clientes)
 }

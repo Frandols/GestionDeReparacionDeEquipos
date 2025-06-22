@@ -1,22 +1,14 @@
 'use server'
 
-import {
-	Presupuesto,
-	PresupuestoPayloadCarga,
-} from '@/respositorios/presupuesto'
+import Presupuesto from '@/recursos/presupuesto/modelo'
+import { PresupuestoPayloadCarga } from '@/respositorios/presupuesto'
 
 export default async function editarPresupuesto(
 	id: number,
 	presupuesto: PresupuestoPayloadCarga,
 	aprobado: boolean
 ) {
-	const presupuestoActualizado = new Presupuesto(
-		presupuesto.monto,
-		presupuesto.idRevision,
-		presupuesto.detalles,
-		aprobado,
-		id
-	)
+	if (aprobado) await Presupuesto.aprobar(id, presupuesto)
 
-	presupuestoActualizado.update()
+	await Presupuesto.desaprobar(id, presupuesto)
 }

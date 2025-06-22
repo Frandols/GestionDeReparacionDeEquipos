@@ -1,12 +1,15 @@
 'use server'
 
-import { Equipo, EquipoPayloadActualizacion } from '@/respositorios/equipo'
+import Equipo from '@/recursos/equipos/modelo'
+import { EquipoPayloadActualizacion } from '@/respositorios/equipo'
 
 export default async function editarEquipo(
 	id: number,
 	actualizacion: EquipoPayloadActualizacion
 ) {
-	const equipo = new Equipo({ id, ...actualizacion })
+	const esValido = Equipo.verificarDatosEquipo(actualizacion)
 
-	await equipo.update()
+	if (!esValido) throw new Error('Los datos no son validos')
+
+	return await Equipo.actualizarEquipo(id, actualizacion)
 }

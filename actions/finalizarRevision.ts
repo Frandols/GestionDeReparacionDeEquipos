@@ -1,12 +1,10 @@
 'use server'
 
-import { Revision } from '@/respositorios/revision'
+import Equipo from '@/recursos/equipos/modelo'
 
 export default async function finalizarRevision(
 	idEquipo: number,
 	observaciones: string
 ) {
-	const nuevaRevision = new Revision(idEquipo, observaciones, new Date())
-
-	nuevaRevision.update()
+	Equipo.finalizarRevision(idEquipo, observaciones)
 }

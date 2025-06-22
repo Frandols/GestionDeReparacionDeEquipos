@@ -1,6 +1,6 @@
+import Cliente from '@/recursos/clientes/modelo'
 import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
-import modeloAdministrarClientes from './modelo'
 import {
 	VistaEliminarCliente,
 	VistaModificarCliente,
@@ -20,7 +20,7 @@ export async function ControladorObtenerCliente(
 		if (!dni) throw new Error('DNI no proporcionado')
 
 		// Consulta al modelo
-		const cliente = await modeloAdministrarClientes.obtenerCliente(dni)
+		const cliente = await Cliente.obtenerCliente(dni)
 
 		// Actualiza la vista
 		return VistaObtenerCliente(cliente)
@@ -47,7 +47,7 @@ export async function ControladorEliminarCliente(
 		if (!user.userId) throw new Error('Usuario no encontrado')
 
 		// Consulta al modelo
-		await modeloAdministrarClientes.eliminarCliente(user.userId, dni)
+		await Cliente.eliminarCliente(user.userId, dni)
 
 		// Actualiza la vista
 		return VistaEliminarCliente()
@@ -74,7 +74,7 @@ export async function ControladorRestaurarCliente(
 		if (!user.userId) throw new Error('Usuario no encontrado')
 
 		// Consulta al modelo
-		await modeloAdministrarClientes.restaurarCliente(user.userId, dni)
+		await Cliente.restaurarCliente(user.userId, dni)
 
 		// Actualiza la vista
 		return VistaRestaurarCliente()
@@ -98,11 +98,13 @@ export async function ControladorModificarCliente(
 		if (!dni) throw new Error('DNI no proporcionado')
 		if (!user.userId) throw new Error('Usuario no encontrado')
 
-		await modeloAdministrarClientes.modificarCliente(user.userId, dni, data)
+		// Consulta al modelo
+		await Cliente.modificarCliente(user.userId, dni, data)
 
 		return VistaModificarCliente()
 	} catch (error) {
-		const msg = error instanceof Error ? error.message : 'Error al modificar cliente'
+		const msg =
+			error instanceof Error ? error.message : 'Error al modificar cliente'
 		return NextResponse.json({ message: msg }, { status: 400 })
 	}
 }

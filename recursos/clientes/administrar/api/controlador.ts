@@ -1,10 +1,10 @@
 import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
-import modeloClientes from './modelo'
+import Cliente from '../../modelo'
 import { VistaCrearCliente, VistaObtenerClientes } from './vista'
 
 export async function ControladorObtenerClientes() {
-	const clientes = await modeloClientes.obtenerTodos()
+	const clientes = await Cliente.obtenerClientes()
 
 	return VistaObtenerClientes(clientes)
 }
@@ -17,8 +17,12 @@ export async function ControladorCrearCliente(request: NextRequest) {
 		// Valida los datos de la request
 		if (!user.userId) throw new Error('Usuario no encontrado')
 
+		const esValido = Cliente.verificarCliente(body)
+
+		if (!esValido) throw new Error('Los datos del cliente no son validos')
+
 		// Consulta al modelo
-		const cliente = await modeloClientes.crear(user.userId, body)
+		const cliente = await Cliente.registrarCliente(user.userId, body)
 
 		// Actualiza la vista
 		return VistaCrearCliente(cliente)

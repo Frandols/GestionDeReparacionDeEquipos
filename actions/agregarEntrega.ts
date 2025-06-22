@@ -1,16 +1,10 @@
 'use server'
 
-import { Entrega, EntregaPayloadCarga } from '@/respositorios/entregas'
+import Equipo from '@/recursos/equipos/modelo'
+import { EntregaPayloadCarga } from '@/respositorios/entregas'
 
 export default async function agregarEntrega(
 	entrega: Omit<EntregaPayloadCarga, 'fecha'>
 ) {
-	const nuevaEntrega = new Entrega(
-		entrega.idEquipo,
-		new Date(),
-		entrega.idMetodoDePago,
-		entrega.idReparacion
-	)
-
-	await nuevaEntrega.save()
+	await Equipo.entregarEquipo(entrega)
 }

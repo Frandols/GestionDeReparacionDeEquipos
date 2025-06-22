@@ -1,6 +1,4 @@
-import { Equipo } from "@/respositorios/equipo";
-
-
+import Equipo from "../../modelo";
 
 /**
  * Controlador para obtener todos los equipos que no están eliminados.
@@ -9,8 +7,9 @@ import { Equipo } from "@/respositorios/equipo";
  * @param {Request} req - Objeto de la petición HTTP.
  * @returns {Response} Respuesta HTTP con código 200 y lista de equipos en JSON.
  */
-export async function obtenerEquipos(req: Request) {
-  const equipos = await Equipo.getAll();
+export async function obtenerEquipos() {
+  const { equipos } = await Equipo.buscarEquipos();
+
   return new Response(JSON.stringify(equipos), { status: 200 });
 }
 
@@ -34,7 +33,7 @@ export async function crearEquipo(req: Request) {
     idTipoDeEquipo,
   } = await req.json();
 
-  const equipo = new Equipo({
+  const equipo = await Equipo.crearEquipo({
     idCliente,
     nroSerie,
     idMarca,
@@ -44,9 +43,8 @@ export async function crearEquipo(req: Request) {
     enciende,
     idTipoDeEquipo,
     deleted: false
-  });
+  })
 
-  await equipo.save();
   return new Response(JSON.stringify(equipo), { status: 201 });
 }
 
@@ -64,11 +62,9 @@ export async function actualizarEquipo(req: Request) {
 
   if (!id) return new Response('ID requerido para actualizar', { status: 400 });
 
-  const equipo = new Equipo({ ...data, id });
+  await Equipo.actualizarEquipo(id, data)
 
-  await equipo.update();
-
-  return new Response(JSON.stringify(equipo), { status: 200 });
+  return new Response(JSON.stringify({ ...data, id }), { status: 200 });
 }
 
 
@@ -85,9 +81,7 @@ export async function eliminarEquipo(req: Request) {
 
   if (!id) return new Response('ID requerido para eliminar', { status: 400 });
 
-  const equipo = new Equipo({ id } as any); // cast para solo id
-
-  await equipo.delete();
+  await Equipo.eliminarEquipo(id)
 
   return new Response(null, { status: 204 });
 }

@@ -1,9 +1,7 @@
 'use server'
 
-import { Revision } from '@/respositorios/revision'
+import Equipo from '@/recursos/equipos/modelo'
 
 export default async function iniciarRevision(idEquipo: number) {
-	const nuevaRevision = new Revision(idEquipo, null, null)
-
-	nuevaRevision.save()
+	await Equipo.iniciarRevision(idEquipo)
 }

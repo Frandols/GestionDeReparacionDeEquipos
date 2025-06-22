@@ -3,28 +3,9 @@ import { equipos } from '@/db/schema'
 import { eq, sql } from 'drizzle-orm'
 import { RevisionPayloadRespuesta } from './revision'
 
-interface PresupuestoPayloadRespuesta {
-	id: number
-	monto: number
-	detalle: string
-	aprobado: boolean | null
-}
-
-type ReparacionPayloadRespuesta = {
-	observaciones: string | null
-} & (
-	| { fechaDeFinalizacion: Date; reparado: boolean; irreparable: boolean }
-	| { fechaDeFinalizacion: null; reparado: null; irreparable: false }
-)
-
-interface EntregaPayloadRespuesta {
-	fecha: Date
-	metodoDePago: string | null
-}
-
 export type EquipoPayloadRespuesta = Omit<
 	Equipo,
-	'save' | 'update' | 'delete'
+	'save' | 'update' | 'delete' | 'restore'
 > &
 	Required<Pick<Equipo, 'id'>> & {
 		nombreCliente: string
@@ -32,15 +13,34 @@ export type EquipoPayloadRespuesta = Omit<
 		nombreModelo: string
 		nombreTipoDeEquipo: string
 		revision: Omit<RevisionPayloadRespuesta, 'idEquipo'> | null
-		presupuesto: PresupuestoPayloadRespuesta | null
-		reparacion: ReparacionPayloadRespuesta | null
-		entrega: EntregaPayloadRespuesta | null
+		presupuesto: {
+			id: number
+			monto: number
+			detalle: string
+			aprobado: boolean | null
+		} | null
+		reparacion:
+			| ({
+					observaciones: string | null
+			  } & (
+					| {
+							fechaDeFinalizacion: Date
+							reparado: boolean
+							irreparable: boolean
+					  }
+					| { fechaDeFinalizacion: null; reparado: null; irreparable: false }
+			  ))
+			| null
+		entrega: {
+			fecha: Date
+			metodoDePago: string | null
+		} | null
 		estado: string
 	}
 
 export type EquipoPayloadActualizacion = Omit<
 	Equipo,
-	'save' | 'update' | 'delete' | 'id'
+	'save' | 'update' | 'delete' | 'id' | 'restore'
 >
 
 /**
@@ -322,5 +322,12 @@ export class Equipo {
 					  },
 			estado: row.estado as string,
 		}
+	}
+
+	async restore() {
+		await db
+			.update(equipos)
+			.set({ deleted: false })
+			.where(eq(equipos.id, this.id as number))
 	}
 }
