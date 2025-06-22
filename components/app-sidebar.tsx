@@ -90,7 +90,7 @@ export const navItems = [
     title: "Equipos",
     url: "/equipos",
     icon: HardDrive,
-    roles: ['administrador'],
+    roles: ['administrador', 'tecnico'],
     subItems: [
       {
         title: "Agregar",
@@ -102,7 +102,7 @@ export const navItems = [
         title: "Administrar",
         icon: ChartNoAxesGantt,
         url: "/administrar",
-        roles: ['administrador'],
+        roles: ['administrador', 'tecnico'],
       },
     ],
   },

@@ -1,7 +1,7 @@
 'use client'
 
 import editarEquipo from "@/actions/editarEquipo";
-import { EquipoAdaptado } from "@/respositorios/equipo";
+import { EquipoPayloadRespuesta } from "@/respositorios/equipo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -26,7 +26,7 @@ const formEditarEquipoSchema = z.object({
 })
 
 interface FormEditarEquipoProps {
-    equipo: EquipoAdaptado
+    equipo: EquipoPayloadRespuesta
 }
 
 export default function FormEditarEquipo(props: FormEditarEquipoProps) {
@@ -68,7 +68,7 @@ export default function FormEditarEquipo(props: FormEditarEquipoProps) {
                 toast.success(`Equipo ${props.equipo.id} editado correctamente.`);
 
                 tablaEquipos.actualizarEquipo({
-                    id: props.equipo.id,
+                    ...props.equipo,
                     nombreCliente: tablaEquipos.clientes.find(cliente => cliente.id === values.idCliente)?.firstName + ' ' + tablaEquipos.clientes.find(cliente => cliente.id === values.idCliente)?.lastName || '',
                     nombreTipoDeEquipo: tablaEquipos.tiposDeEquipo.find(tipo => tipo.id === values.idTipoDeEquipo)?.descripcion || '',
                     nroSerie: values.nroSerie,
@@ -77,7 +77,6 @@ export default function FormEditarEquipo(props: FormEditarEquipoProps) {
                     razonDeIngreso: values.razonDeIngreso,
                     observaciones: values.observaciones,
                     enciende: values.enciende,
-                    deleted: props.equipo.deleted,
                     idCliente: values.idCliente,
                     idTipoDeEquipo: values.idTipoDeEquipo,
                     idMarca: values.idMarca,
@@ -97,24 +96,24 @@ export default function FormEditarEquipo(props: FormEditarEquipoProps) {
                 render={({ field }) => (
                     <FormItem>
                         <FormLabel>Cliente</FormLabel>
-                            <Select onValueChange={(newValue) => {
-                                field.onChange(Number(newValue));
-                            }} defaultValue={String(field.value)}>
-                                <FormControl>
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Elige el cliente..." />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {
-                                        tablaEquipos.clientes.map(
-                                            cliente => <SelectItem key={cliente.id} value={String(cliente.id)}>
-                                                {cliente.firstName} {cliente.lastName} ({cliente.dni})
-                                            </SelectItem>
-                                        )
-                                    }
-                                </SelectContent>
-                            </Select>
+                        <Select onValueChange={(newValue) => {
+                            field.onChange(Number(newValue));
+                        }} defaultValue={String(field.value)}>
+                            <FormControl>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Elige el cliente..." />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                {
+                                    tablaEquipos.clientes.map(
+                                        cliente => <SelectItem key={cliente.id} value={String(cliente.id)}>
+                                            {cliente.firstName} {cliente.lastName} ({cliente.dni})
+                                        </SelectItem>
+                                    )
+                                }
+                            </SelectContent>
+                        </Select>
                         <FormMessage />
                     </FormItem>
                 )}
@@ -237,7 +236,7 @@ export default function FormEditarEquipo(props: FormEditarEquipoProps) {
                         <FormLabel>Observaciones</FormLabel>
                         <FormControl>
                             <Input placeholder="Observaciones..." {...field} />
-                            </FormControl>
+                        </FormControl>
                         <FormMessage />
                     </FormItem>
                 )}

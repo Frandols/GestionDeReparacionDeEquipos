@@ -1,16 +1,18 @@
 import TablaEquipos from "@/components/tabla-equipos";
 import { ClienteAdaptado } from "@/respositorios/client";
-import { EquipoAdaptado } from "@/respositorios/equipo";
+import { EquipoPayloadRespuesta } from "@/respositorios/equipo";
 import { MarcaAdaptada } from "@/respositorios/marcas";
+import { MetodoDePagoPayloadRespuesta } from "@/respositorios/metodosDePago";
 import { ModeloAdaptado } from "@/respositorios/modelos";
 import { TipoDeEquipoAdaptado } from "@/respositorios/tipoDeEquipo";
 
 export default function VistaAdministrarEquipos(
-  equipos: EquipoAdaptado[], 
+  equipos: EquipoPayloadRespuesta[], 
   clientes: ClienteAdaptado[], 
   tiposDeEquipo: TipoDeEquipoAdaptado[], 
   marcas: MarcaAdaptada[], 
-  modelos: ModeloAdaptado[]
+  modelos: ModeloAdaptado[],
+  metodosDePago: MetodoDePagoPayloadRespuesta[]
 ) {
   return <TablaEquipos 
     equipos={equipos} 
@@ -19,5 +21,6 @@ export default function VistaAdministrarEquipos(
     tiposDeEquipo={tiposDeEquipo} 
     marcas={marcas} 
     modelos={modelos} 
+    metodosDePago={metodosDePago}
   />
 }

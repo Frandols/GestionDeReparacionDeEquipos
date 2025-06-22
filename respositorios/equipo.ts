@@ -1,16 +1,44 @@
 import db from '@/db/drizzle'
-import { clients, equipos, marcas, modelos, tipoDeEquipo } from '@/db/schema'
-import { and, eq, sql } from 'drizzle-orm'
+import { equipos } from '@/db/schema'
+import { eq, sql } from 'drizzle-orm'
+import { RevisionPayloadRespuesta } from './revision'
 
-export type EquipoAdaptado = Omit<Equipo, 'save' | 'update' | 'delete'> &
+interface PresupuestoPayloadRespuesta {
+	id: number
+	monto: number
+	detalle: string
+	aprobado: boolean | null
+}
+
+type ReparacionPayloadRespuesta = {
+	observaciones: string | null
+} & (
+	| { fechaDeFinalizacion: Date; reparado: boolean; irreparable: boolean }
+	| { fechaDeFinalizacion: null; reparado: null; irreparable: false }
+)
+
+interface EntregaPayloadRespuesta {
+	fecha: Date
+	metodoDePago: string | null
+}
+
+export type EquipoPayloadRespuesta = Omit<
+	Equipo,
+	'save' | 'update' | 'delete'
+> &
 	Required<Pick<Equipo, 'id'>> & {
 		nombreCliente: string
 		nombreMarca: string
 		nombreModelo: string
 		nombreTipoDeEquipo: string
+		revision: Omit<RevisionPayloadRespuesta, 'idEquipo'> | null
+		presupuesto: PresupuestoPayloadRespuesta | null
+		reparacion: ReparacionPayloadRespuesta | null
+		entrega: EntregaPayloadRespuesta | null
+		estado: string
 	}
 
-export type ActualizacionDeEquipo = Omit<
+export type EquipoPayloadActualizacion = Omit<
 	Equipo,
 	'save' | 'update' | 'delete' | 'id'
 >
@@ -142,49 +170,76 @@ export class Equipo {
 	/**
 	 * Obtiene todos los equipos que no están eliminados.
 	 */
-	static async getAll(): Promise<EquipoAdaptado[]> {
-		const rows = await db
-			.select({
-				id: equipos.id,
-				idCliente: equipos.idCliente,
-				nroSerie: equipos.nroSerie,
-				idMarca: equipos.idMarca,
-				idModelo: equipos.idModelo,
-				razonDeIngreso: equipos.razonDeIngreso,
-				observaciones: equipos.observaciones,
-				enciende: equipos.enciende,
-				idTipoDeEquipo: equipos.idTipoDeEquipo,
-				deleted: equipos.deleted,
+	static async getAll(): Promise<EquipoPayloadRespuesta[]> {
+		const resultado = await db.execute(sql`SELECT * FROM obtener_equipos()`)
 
-				nombreCliente: sql<string>`(${clients.firstName} || ' ' || ${clients.lastName})`,
-				nombreMarca: marcas.descripcion,
-				nombreModelo: modelos.descripcion,
-				nombreTipoDeEquipo: tipoDeEquipo.descripcion,
-			})
-			.from(equipos)
-			.innerJoin(clients, eq(equipos.idCliente, clients.id))
-			.innerJoin(marcas, eq(equipos.idMarca, marcas.id))
-			.innerJoin(modelos, eq(equipos.idModelo, modelos.id))
-			.innerJoin(tipoDeEquipo, eq(equipos.idTipoDeEquipo, tipoDeEquipo.id))
-
-		return rows.map((row) => ({
+		return resultado.rows.map((row) => ({
 			...new Equipo({
-				id: row.id,
-				idCliente: row.idCliente,
-				nroSerie: row.nroSerie,
-				idMarca: row.idMarca,
-				idModelo: row.idModelo,
-				razonDeIngreso: row.razonDeIngreso,
-				observaciones: row.observaciones,
-				enciende: row.enciende,
-				idTipoDeEquipo: row.idTipoDeEquipo,
-				deleted: row.deleted,
+				id: row.id as number,
+				idCliente: row.id_cliente as number,
+				nroSerie: row.nro_serie as string,
+				idMarca: row.id_marca as number,
+				idModelo: row.id_modelo as number,
+				razonDeIngreso: row.razon_de_ingreso as string,
+				observaciones: row.observaciones as string,
+				enciende: row.enciende as boolean,
+				idTipoDeEquipo: row.id_tipodeequipo as number,
+				deleted: row.deleted as boolean,
 			}),
-			id: row.id,
-			nombreCliente: row.nombreCliente,
-			nombreMarca: row.nombreMarca,
-			nombreModelo: row.nombreModelo,
-			nombreTipoDeEquipo: row.nombreTipoDeEquipo,
+			id: row.id as number,
+			nombreCliente: row.cliente as string,
+			nombreMarca: row.marca as string,
+			nombreModelo: row.modelo as string,
+			nombreTipoDeEquipo: row.tipodeequipo as string,
+			revision:
+				row.revisiones_idequipo === null
+					? null
+					: {
+							observaciones: row.revisiones_observaciones as string,
+							fechaDeFinalizacion: row.revisiones_fechadefinalizacion as Date,
+					  },
+			presupuesto:
+				row.presupuestos_id === null
+					? null
+					: {
+							id: row.presupuestos_id as number,
+							monto: row.presupuestos_monto as number,
+							detalle: row.prespuestos_detalle as string,
+							aprobado: row.presupuestos_aprobado as boolean,
+					  },
+			reparacion:
+				row.reparaciones_idpresupuesto === null
+					? null
+					: {
+							observaciones: row.observaciones_reparacion as string,
+							...(row.fechadefinalizacion_reparacion === null
+								? {
+										fechaDeFinalizacion: null,
+										reparado: null,
+										irreparable: false,
+								  }
+								: {
+										fechaDeFinalizacion:
+											row.fechadefinalizacion_reparacion as Date,
+										...(row.reparaciones_reparado === true
+											? {
+													reparado: true,
+													irreparable: false,
+											  }
+											: {
+													reparado: false,
+													irreparable: true,
+											  }),
+								  }),
+					  },
+			entrega:
+				row.entregas_idreparacion === null
+					? null
+					: {
+							fecha: row.entregas_fecha as Date,
+							metodoDePago: row.metodoDePago as string,
+					  },
+			estado: row.estado as string,
 		}))
 	}
 
@@ -192,54 +247,80 @@ export class Equipo {
 	 * Obtiene un equipo por su ID si no está eliminado.
 	 * @param id ID del equipo a buscar.
 	 */
-	static async getById(id: number): Promise<EquipoAdaptado | null> {
-		const rows = await db
-			.select({
-				id: equipos.id,
-				idCliente: equipos.idCliente,
-				nroSerie: equipos.nroSerie,
-				idMarca: equipos.idMarca,
-				idModelo: equipos.idModelo,
-				razonDeIngreso: equipos.razonDeIngreso,
-				observaciones: equipos.observaciones,
-				enciende: equipos.enciende,
-				idTipoDeEquipo: equipos.idTipoDeEquipo,
-				deleted: equipos.deleted,
+	static async getById(id: number): Promise<EquipoPayloadRespuesta | null> {
+		const resultado = await db.execute(sql`SELECT * FROM obtener_equipo(${id})`)
 
-				nombreCliente: sql<string>`(${clients.firstName} || ' ' || ${clients.lastName})`,
-				nombreMarca: marcas.descripcion,
-				nombreModelo: modelos.descripcion,
-				nombreTipoDeEquipo: tipoDeEquipo.descripcion,
-			})
-			.from(equipos)
-			.innerJoin(clients, eq(equipos.idCliente, clients.id))
-			.innerJoin(marcas, eq(equipos.idMarca, marcas.id))
-			.innerJoin(modelos, eq(equipos.idModelo, modelos.id))
-			.innerJoin(tipoDeEquipo, eq(equipos.idTipoDeEquipo, tipoDeEquipo.id))
-			.where(and(eq(equipos.id, id)))
-			.limit(1)
+		if (resultado.rows.length === 0) return null
 
-		if (rows.length === 0) return null
+		const row = resultado.rows[0]
 
-		const row = rows[0]
 		return {
 			...new Equipo({
-				id: row.id,
-				idCliente: row.idCliente,
-				nroSerie: row.nroSerie,
-				idMarca: row.idMarca,
-				idModelo: row.idModelo,
-				razonDeIngreso: row.razonDeIngreso,
-				observaciones: row.observaciones,
-				enciende: row.enciende,
-				idTipoDeEquipo: row.idTipoDeEquipo,
-				deleted: row.deleted,
+				id: row.id as number,
+				idCliente: row.id_cliente as number,
+				nroSerie: row.nro_serie as string,
+				idMarca: row.id_marca as number,
+				idModelo: row.id_modelo as number,
+				razonDeIngreso: row.razon_de_ingreso as string,
+				observaciones: row.observaciones as string,
+				enciende: row.enciende as boolean,
+				idTipoDeEquipo: row.id_tipodeequipo as number,
+				deleted: row.deleted as boolean,
 			}),
-			id: row.id,
-			nombreCliente: row.nombreCliente,
-			nombreMarca: row.nombreMarca,
-			nombreModelo: row.nombreModelo,
-			nombreTipoDeEquipo: row.nombreTipoDeEquipo,
+			id: row.id as number,
+			nombreCliente: row.cliente as string,
+			nombreMarca: row.marca as string,
+			nombreModelo: row.modelo as string,
+			nombreTipoDeEquipo: row.tipodeequipo as string,
+			revision:
+				row.revisiones_idequipo === null
+					? null
+					: {
+							observaciones: row.revisiones_observaciones as string,
+							fechaDeFinalizacion: row.revisiones_fechadefinalizacion as Date,
+					  },
+			presupuesto:
+				row.presupuestos_id === null
+					? null
+					: {
+							id: row.presupuestos_id as number,
+							monto: row.presupuestos_monto as number,
+							detalle: row.presupuestos_detalle as string,
+							aprobado: row.presupuestos_aprobado as boolean,
+					  },
+			reparacion:
+				row.reparaciones_idpresupuesto === null
+					? null
+					: {
+							observaciones: row.observaciones_reparacion as string,
+							...(row.fechadefinalizacion_reparacion === null
+								? {
+										fechaDeFinalizacion: null,
+										reparado: null,
+										irreparable: false,
+								  }
+								: {
+										fechaDeFinalizacion:
+											row.fechadefinalizacion_reparacion as Date,
+										...(row.reparaciones_reparado === true
+											? {
+													reparado: true,
+													irreparable: false,
+											  }
+											: {
+													reparado: false,
+													irreparable: true,
+											  }),
+								  }),
+					  },
+			entrega:
+				row.entregas_idreparacion === null
+					? null
+					: {
+							fecha: row.entregas_fecha as Date,
+							metodoDePago: row.metodoDePago as string,
+					  },
+			estado: row.estado as string,
 		}
 	}
 }
