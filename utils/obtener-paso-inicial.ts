@@ -9,5 +9,7 @@ export default function obtenerPasoInicial(
 
 	if (equipo.reparacion === null) return 2
 
-	return 3
+	if (equipo.entrega === null) return 3
+
+	return 4
 }
