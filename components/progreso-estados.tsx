@@ -770,7 +770,7 @@ function Entrega(props: PasoProps) {
                 setLoading(true)
 
                 try {
-                    await agregarEntrega({})
+                    await agregarEntrega({ idEquipo: props.equipo.id })
 
                     toast.success(`Equipo devuelto correctamente.`);
 
@@ -811,7 +811,7 @@ function Entrega(props: PasoProps) {
                         setLoading(true)
 
                         try {
-                            await agregarEntrega({ idReparacion: presupuestoAprobado.id, idMetodoDePago: values.metodoDePagoId })
+                            await agregarEntrega({ idEquipo: props.equipo.id, idReparacion: presupuestoAprobado.id, idMetodoDePago: values.metodoDePagoId })
 
                             toast.success(`Entrega confirmada correctamente.`);
 

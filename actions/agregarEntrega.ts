@@ -6,6 +6,7 @@ export default async function agregarEntrega(
 	entrega: Omit<EntregaPayloadCarga, 'fecha'>
 ) {
 	const nuevaEntrega = new Entrega(
+		entrega.idEquipo,
 		new Date(),
 		entrega.idMetodoDePago,
 		entrega.idReparacion

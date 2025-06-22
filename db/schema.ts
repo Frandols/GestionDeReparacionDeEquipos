@@ -94,7 +94,9 @@ export const reparaciones = pgTable('reparaciones', {
 })
 
 export const entregas = pgTable('entregas', {
-	id: serial().primaryKey(),
+	idEquipo: serial()
+		.primaryKey()
+		.references(() => equipos.id),
 	idReparacion: serial(),
 	fecha: timestamp({ mode: 'date' }).notNull(),
 	idMetodoDePago: serial(),
