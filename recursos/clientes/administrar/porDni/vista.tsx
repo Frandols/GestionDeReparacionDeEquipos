@@ -67,10 +67,10 @@ export default function VistaAdministrarClientePorDNI() {
 
   const handleSubmit = async () => {
     if (!formData.nombre || !formData.apellido || !formData.dni || !formData.email || !formData.numero) {
-      alert('Todos los campos son requeridos.')
+      setSuccessMessage('Faltan campos por completar.')
       return
     }
-  
+
     try {
       const response = await fetch(`/api/clientes/${dni}`, {
         method: 'PUT',
@@ -85,22 +85,34 @@ export default function VistaAdministrarClientePorDNI() {
           phoneNumber: formData.numero,
         }),
       })
-  
+
       const data = await response.json()
-  
-      if (response.ok) {
-        setSuccessMessage('Cliente actualizado exitosamente.')
-        setTimeout(() => {
-          router.back() // 🔥 Volver a la página anterior después de 1 segundo
-        }, 1000)
-      } else {
-        setSuccessMessage(data.error || 'Hubo un error al actualizar el cliente.')
+      const msg = data.message?.toLowerCase?.() || ''
+
+      if (!response.ok) {
+        let customMessage = 'Error al actualizar cliente.'
+        if (msg.includes('faltan campos')) {
+          customMessage = 'Faltan campos por completar.'
+        } else if (msg.includes('dni ingresado no es válido')) {
+          customMessage = 'El DNI ingresado no es válido.'
+        } else if (msg.includes('correo electrónico no es válido')) {
+          customMessage = 'El correo electrónico no es válido.'
+        } else if (msg.includes('teléfono no es válido')) {
+          customMessage = 'El número de teléfono no es válido.'
+        } else if (msg.includes('ya existe otro cliente con ese dni')) {
+          customMessage = 'Ya existe otro cliente con ese DNI.'
+        }
+        throw new Error(customMessage)
       }
+
+      setSuccessMessage('Cliente actualizado exitosamente.')
+      setTimeout(() => router.back(), 1000)
     } catch (error) {
-      console.error('Error al actualizar el cliente:', error)
-      setSuccessMessage('Hubo un problema al actualizar el cliente.')
+      const message = error instanceof Error ? error.message : 'Error inesperado.'
+      setSuccessMessage(message)
     }
   }
+
 
   return (
     <section className='relative flex flex-col items-center justify-center h-full'>
@@ -114,12 +126,12 @@ export default function VistaAdministrarClientePorDNI() {
       </div>
 
       <section className='relative flex flex-col items-center justify-center bg-[#202020]/90 rounded-2xl p-8 w-[350px] h-[600px] space-y-4 shadow-2xl mt-16'>
-      <div
-        style={{ bottom: 'calc(100% - 32px)' }}
-        className='absolute left-[calc(100% - 32px)] flex items-center justify-center w-32 h-32 bg-[#202020] rounded-full shadow-2xl'
-      >
-        <UserPlus className='w-20 h-20 text-white' />
-      </div>
+        <div
+          style={{ bottom: 'calc(100% - 32px)' }}
+          className='absolute left-[calc(100% - 32px)] flex items-center justify-center w-32 h-32 bg-[#202020] rounded-full shadow-2xl'
+        >
+          <UserPlus className='w-20 h-20 text-white' />
+        </div>
 
         <h1 className='text-white text-bold italic font-mono text-2xl'>
           Editar cliente
@@ -184,7 +196,12 @@ export default function VistaAdministrarClientePorDNI() {
 
         {/* Mostrar mensaje de éxito o error */}
         {successMessage && (
-          <div className="text-green-500 text-center mt-2">
+          <div
+            className={`text-center mt-2 ${successMessage.includes('correctamente') || successMessage.includes('exitosamente')
+                ? 'text-green-500'
+                : 'text-red-500'
+              }`}
+          >
             {successMessage}
           </div>
         )}

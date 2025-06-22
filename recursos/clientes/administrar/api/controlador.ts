@@ -25,7 +25,7 @@ export async function ControladorCrearCliente(request: NextRequest) {
 	} catch (error) {
 		if (error instanceof Error) {
 			// Si hay error devuelve respuesta de error con el mensaje
-			return NextResponse.json({ message: error.message })
+			return NextResponse.json({ message: error.message }, { status: 400 })
 		}
 	}
 }

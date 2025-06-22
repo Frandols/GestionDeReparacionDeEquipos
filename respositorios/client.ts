@@ -28,53 +28,61 @@ export class Client {
 	}
 
 	static create(params: Partial<ClienteAdaptado>): Client | Error {
-		if (!params.firstName || params.firstName.trim() === '') {
-			return new Error('First name is required.')
+		if (
+			!params.firstName?.trim() ||
+			!params.lastName?.trim() ||
+			!params.dni?.trim() ||
+			!params.email?.trim() ||
+			!params.phoneNumber?.trim()
+		) {
+			return new Error('FALTAN_CAMPOS')
 		}
-		if (!params.lastName || params.lastName.trim() === '') {
-			return new Error('Last name is required.')
+
+		if (!/^\d{8}$/.test(params.dni)) {
+			return new Error('DNI_INVALIDO')
 		}
-		if (!params.dni || params.dni.trim() === '') {
-			return new Error('DNI is required.')
+
+		if (!Client.isValidEmail(params.email)) {
+			return new Error('EMAIL_INVALIDO')
 		}
-		if (!params.email || !Client.isValidEmail(params.email)) {
-			return new Error('Valid email is required.')
-		}
-		if (!params.phoneNumber || params.phoneNumber.trim() === '') {
-			return new Error('Phone number is required.')
+
+		if (!/^\d{10,15}$/.test(params.phoneNumber)) {
+			return new Error('PHONE_INVALIDO')
 		}
 
 		return new Client(params as ClienteAdaptado)
 	}
 
 	private static isValidEmail(email: string): boolean {
-		// Very basic email check
 		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 	}
 
 	public async save() {
 		try {
-			const result = await db
-				.insert(clients)
-				.values({
-					firstName: this.firstName,
-					lastName: this.lastName,
-					dni: this.dni,
-					email: this.email,
-					phoneNumber: this.phoneNumber,
-				})
-				.returning({ id: clients.id })
-
-			this.id = result[0].id
+			await db.insert(clients).values({
+				firstName: this.firstName,
+				lastName: this.lastName,
+				dni: this.dni,
+				email: this.email,
+				phoneNumber: this.phoneNumber,
+				deleted: this.deleted,
+			})
 			return { success: true }
 		} catch (error: any) {
-			if (error.code === '23505') {
-				return { success: false, reason: 'DNI_ALREADY_EXISTS' }
+			console.error('Error al guardar cliente:', error)
+
+			if (
+				error instanceof Error &&
+				error.message.includes('duplicate key value') &&
+				error.message.includes('clients_dni_unique')
+			) {
+				throw new Error('Este cliente ya está registrado en el sistema')
 			}
-			console.error('Unexpected DB error:', error)
-			return { success: false, reason: 'UNKNOWN_ERROR' }
+
+			throw error
 		}
 	}
+
 
 	static async getByDni(dni: string): Promise<Client | null> {
 		const result = await db

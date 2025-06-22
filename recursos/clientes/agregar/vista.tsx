@@ -3,7 +3,9 @@ import { Input } from "@/components/ui/input"
 import { UserPlus } from "lucide-react"
 import { useState } from "react"
 
-export default function VistaAgregarCliente() {
+
+
+export default function FormularioCliente() {
     const [successMessage, setSuccessMessage] = useState('')
     const [formData, setFormData] = useState({
         firstName: '',
@@ -18,49 +20,62 @@ export default function VistaAgregarCliente() {
         setFormData(prev => ({ ...prev, [name]: value }))
     }
 
-    const handleSubmit = async () => {
-        try {
-            const newClient = {
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                dni: formData.dni,
-                email: formData.email,
-                phoneNumber: formData.phoneNumber,
-                deleted: false,
-            }
+  const handleSubmit = async () => {
+	try {
+		const newClient = {
+			firstName: formData.firstName,
+			lastName: formData.lastName,
+			dni: formData.dni,
+			email: formData.email,
+			phoneNumber: formData.phoneNumber,
+			deleted: false,
+		}
 
-            const response = await fetch('/api/clientes', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newClient),
-            })
+		const response = await fetch('/api/clientes', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(newClient),
+		})
 
-            if (!response.ok) {
-                throw new Error('Error al agregar cliente')
-            }
+		const data = await response.json()
+		console.log('Mensaje recibido del backend:', data.message)
 
-            const data = await response.json()
-            console.log('Cliente agregado:', data)
+		if (!response.ok) {
+			const msg = data.message?.toLowerCase?.() || ''
+			let customMessage = 'Error al agregar cliente.'
 
-            // Aquí agregamos el mensaje de éxito
-            setSuccessMessage('Cliente agregado exitosamente.')
+			if (msg.includes('faltan campos')) {
+				customMessage = 'Faltan campos por completar.'
+			} else if (msg.includes('dni ingresado no es válido')) {
+				customMessage = 'El DNI ingresado no es válido.'
+			} else if (msg.includes('correo electrónico no es válido')) {
+				customMessage = 'El correo electrónico no es válido.'
+			} else if (msg.includes('teléfono no es válido')) {
+				customMessage = 'El número de teléfono no es válido.'
+			} else if (msg.includes('ya está registrado')) {
+				customMessage = 'Este cliente ya está registrado en el sistema.'
+			}
 
-            // Limpiar formulario
-            setFormData({
-                firstName: '',
-                lastName: '',
-                dni: '',
-                email: '',
-                phoneNumber: '',
-            })
-        } catch (error) {
-            console.error('Error:', error)
-            setSuccessMessage('Error al agregar cliente.') // En caso de error
-        }
-    }
+			throw new Error(customMessage)
+		}
 
+		setSuccessMessage('Cliente agregado exitosamente.')
+		setFormData({
+			firstName: '',
+			lastName: '',
+			dni: '',
+			email: '',
+			phoneNumber: '',
+		})
+		setTimeout(() => setSuccessMessage(''), 3000)
+	} catch (error) {
+		const message = error instanceof Error ? error.message : 'Error inesperado.'
+		setSuccessMessage(message)
+		setTimeout(() => setSuccessMessage(''), 3000)
+	}
+}
 
 
     return (
@@ -77,7 +92,7 @@ export default function VistaAgregarCliente() {
                 >
                     <UserPlus className="w-20 h-20 text-white" />
                 </div>
-                
+
                 <h1 className='text-white text-bold italic font-mono text-2xl'>
                     Agregar cliente
                 </h1>
@@ -141,9 +156,14 @@ export default function VistaAgregarCliente() {
 
                 {/* Mostrar mensaje de éxito */}
                 {successMessage && (
-                    <div className="text-green-500 text-center mt-4">
+                    <p
+                        className={`mt-2 ${successMessage.includes('exitosamente')
+                            ? 'text-green-600'
+                            : 'text-red-600'
+                            }`}
+                    >
                         {successMessage}
-                    </div>
+                    </p>
                 )}
 
                 <div className='flex flex-col justify-start items-center space-y-4 mt-5'>

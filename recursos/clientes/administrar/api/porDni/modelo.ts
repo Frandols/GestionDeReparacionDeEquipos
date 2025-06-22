@@ -47,20 +47,50 @@ const modeloAdministrarClientes = {
 		datosActualizados: Partial<ClienteAdaptado>
 	) {
 		const clerk = await clerkClient()
-
 		const userData = await clerk.users.getUser(userId)
 
-		if (userData.publicMetadata.role !== 'administrador')
+		if (userData.publicMetadata.role !== 'administrador') {
 			throw new Error('El usuario debe ser administrador')
+		}
 
-		const client = await Client.getByDni(clienteDNI)
+		const clienteExistente = await Client.getByDni(clienteDNI)
+		if (!clienteExistente) throw new Error('Cliente no encontrado')
 
-		if (!client) throw new Error('Cliente no encontrado')
+		const clienteEditado = Client.create(datosActualizados)
+		if (clienteEditado instanceof Error) {
+			switch (clienteEditado.message) {
+				case 'FALTAN_CAMPOS':
+					throw new Error('Faltan campos por completar')
+				case 'DNI_INVALIDO':
+					throw new Error('El DNI ingresado no es válido.')
+				case 'EMAIL_INVALIDO':
+					throw new Error('El correo electrónico no es válido.')
+				case 'PHONE_INVALIDO':
+					throw new Error('El número de teléfono no es válido.')
+				default:
+					throw new Error('No se pudo procesar el cliente')
+			}
+		}
 
-		const success = await Client.updateByDni(clienteDNI, datosActualizados)
+		// Verificamos si el nuevo DNI está en uso por otro cliente
+		if (datosActualizados.dni && datosActualizados.dni !== clienteDNI) {
+			const dniEnUso = await Client.getByDni(datosActualizados.dni)
+			if (dniEnUso) {
+				throw new Error('Ya existe otro cliente con ese DNI')
+			}
+		}
 
-		if (!success) throw new Error('No se pudo modificar el cliente')
-	},
+		try {
+			const success = await Client.updateByDni(clienteDNI, datosActualizados)
+			if (!success) throw new Error('No se pudo modificar el cliente')
+		} catch (error) {
+			if (error instanceof Error) throw new Error(error.message)
+			throw new Error('Error desconocido al modificar cliente')
+		}
+
+		return true
+	}
+
 }
 
 export default modeloAdministrarClientes
