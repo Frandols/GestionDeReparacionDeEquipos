@@ -10,8 +10,8 @@ import {
  * @param req - Objeto Request de la petición HTTP.
  * @returns Respuesta con el listado de equipos en formato JSON.
  */
-export async function GET(req: Request) {
-	return obtenerEquipos(req)
+export async function GET() {
+	return obtenerEquipos()
 }
 
 /**
