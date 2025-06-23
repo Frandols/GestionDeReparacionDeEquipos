@@ -22,8 +22,8 @@ export function FormAgregarUsuario() {
     })
   }
 
-  return <FormUsuario onSubmit={(values, reset) => {
-    onSubmit(values)
+  return <FormUsuario onSubmit={async (values, reset) => {
+    await onSubmit(values)
 
     reset()
   }} defaultValues={{
