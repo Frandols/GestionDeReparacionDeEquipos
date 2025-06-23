@@ -237,7 +237,7 @@ export class Equipo {
 					? null
 					: {
 							fecha: row.entregas_fecha as Date,
-							metodoDePago: row.metodoDePago as string,
+							metodoDePago: row.metododepago as string,
 					  },
 			estado: row.estado as string,
 		}))
