@@ -18,7 +18,7 @@ class Presupuesto {
 			id
 		)
 
-		presupuestoActualizado.update()
+		await presupuestoActualizado.update()
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Presupuesto {
 			id
 		)
 
-		presupuestoActualizado.update()
+		await presupuestoActualizado.update()
 	}
 }
 

@@ -8,7 +8,11 @@ export default async function editarPresupuesto(
 	presupuesto: PresupuestoPayloadCarga,
 	aprobado: boolean
 ) {
-	if (aprobado) await Presupuesto.aprobar(id, presupuesto)
+	if (aprobado) {
+		await Presupuesto.aprobar(id, presupuesto)
+
+		return
+	}
 
 	await Presupuesto.desaprobar(id, presupuesto)
 }
