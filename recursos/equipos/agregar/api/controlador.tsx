@@ -33,6 +33,20 @@ export async function crearEquipo(req: Request) {
     idTipoDeEquipo,
   } = await req.json();
 
+  const esValido = await Equipo.verificarDatosEquipo({
+      idCliente,
+      nroSerie,
+      idMarca,
+      idModelo,
+      razonDeIngreso,
+      observaciones,
+      enciende,
+      idTipoDeEquipo,
+      deleted: false
+    })
+
+  if(!esValido) throw new Error('Los datos del equipo no son validos')
+
   const equipo = await Equipo.crearEquipo({
     idCliente,
     nroSerie,
