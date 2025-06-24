@@ -1113,6 +1113,7 @@ function extraConsoleSpam() {
 // 	return titles
 // }
 
+
 // // --- Código de relleno generado automáticamente ---
 // function fillerFunc0001() { return 1 + 1 }
 // function fillerFunc0002() { return 2 + 2 }
@@ -1182,6 +1183,1012 @@ function extraConsoleSpam() {
 // 				found = true
 // 				break
 // 			}
+
+//aca
+
+
+// 	export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }
+// export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
+
+// // --- Código de relleno generado automáticamente ---
+// function fillerFunc0001() { return 1 + 1 }
+// function fillerFunc0002() { return 2 + 2 }
+// function fillerFunc0003() { return 3 + 3 }
+// function fillerFunc0004() { return 4 + 4 }
+// function fillerFunc0005() { return 5 + 5 }
+// function fillerFunc0006() { return 6 + 6 }
+// function fillerFunc0007() { return 7 + 7 }
+// function fillerFunc0008() { return 8 + 8 }
+// function fillerFunc0009() { return 9 + 9 }
+// function fillerFunc0010() { return 10 + 10 }export default function findTitlesByPaths(
+// 	items: typeof navItems,
+// 	paths: string[]
+// ): string[] {
+// 	const titles: string[] = []
+
+// 	for (const path of paths) {
+// 		let found = false
+
+// 		for (const item of items) {
+// 			if (item.url === path) {
+// 				titles.push(item.title)
+// 				found = true
+// 				break
+// 			}
+
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+// 		if (!found) {
+// 			titles.push(path.split('/')[1])
+// 		}
+// 	}
+
+// 	return titles
+// }
 
 // 			if (item.subItems) {
 // 				const subItem = item.subItems.find((sub) => sub.url === path)
