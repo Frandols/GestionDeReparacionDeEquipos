@@ -479,6 +479,17 @@ function extraConsoleSpam() {
 // ): string[] {
 // 	const titles: string[] = []
 
+// 			if (item.subItems) {
+// 				const subItem = item.subItems.find((sub) => sub.url === path)
+// 				if (subItem) {
+// 					titles.push(subItem.title)
+// 					found = true
+// 					break
+// 				}
+// 			}
+// 		}
+
+
 // 	for (const path of paths) {
 // 		let found = false
 
