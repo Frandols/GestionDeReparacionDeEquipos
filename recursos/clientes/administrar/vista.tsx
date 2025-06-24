@@ -3,6 +3,7 @@
 import TablaClientes from "@/components/tabla-clientes";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function VistaAdministrarClientes() {
   const [clientes, setClientes] = useState<any[]>([]);
@@ -69,16 +70,22 @@ export default function VistaAdministrarClientes() {
       const data = await response.json();
 
       if (response.ok) {
+        if('message' in data) {
+          toast.error(`Error al eliminar cliente: ${data.message}`)
+
+          return
+        }
+
         setClientes((prevClientes) =>
           prevClientes.map((cliente) =>
             cliente.dni === dni ? { ...cliente, deleted: true } : cliente
           )
         );
       } else {
-        console.error("Error al eliminar cliente:", data.error);
+        toast.error(`Error al eliminar cliente: ${data.error}`);
       }
     } catch (error) {
-      console.error("Error al eliminar cliente:", error);
+      toast.error(`Error al eliminar cliente: ${error}`);
     }
   };
 

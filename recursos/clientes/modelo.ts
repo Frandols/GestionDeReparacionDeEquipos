@@ -1,5 +1,7 @@
+import db from '@/db/drizzle'
 import { Client, ClienteAdaptado } from '@/respositorios/client'
 import { clerkClient, User } from '@clerk/nextjs/server'
+import { sql } from 'drizzle-orm'
 
 class Cliente {
 	/**
@@ -52,6 +54,15 @@ class Cliente {
 		const client = await Client.getByDni(clienteDNI)
 
 		if (!client) throw new Error('Cliente no encontrado')
+
+		const { rows: equipos } = await db.execute(
+			sql`SELECT * FROM obtener_equipos_por_dni(${client.dni});`
+		)
+
+		if (equipos.some((equipo) => equipo.estado !== 'Entregado'))
+			throw new Error(
+				'El usuario tiene equipos sin entregar, no puede eliminarse'
+			)
 
 		const success = await Client.deleteByDni(clienteDNI)
 

@@ -1,3 +1,4 @@
+import db from '@/db/drizzle'
 import { Client } from '@/respositorios/client'
 import { Entrega, EntregaPayloadCarga } from '@/respositorios/entregas'
 import {
@@ -19,6 +20,7 @@ import {
 import { Revision } from '@/respositorios/revision'
 import { TipoDeEquipo } from '@/respositorios/tipoDeEquipo'
 import { currentUser } from '@clerk/nextjs/server'
+import { sql } from 'drizzle-orm'
 import { z } from 'zod'
 
 const formEditarEquipoSchema = z.object({
@@ -105,6 +107,18 @@ class Equipo {
 	 * @param id ID del equipo a eliminar.
 	 */
 	static async eliminarEquipo(id: string) {
+		const equipoExistente = await db.execute(
+			sql`SELECT * FROM obtener_equipo_por_id(${id});`
+		)
+
+		if (equipoExistente.rows.length === 0)
+			throw new Error('El equipo no existe')
+
+		const { estado } = equipoExistente.rows[0]
+
+		if (estado !== 'Entregado')
+			throw new Error('El equipo no esta entregado, no se puede eliminar')
+
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const equipo = new RepositorioEquipos({ id } as any) // Cast para solo ID.
 
